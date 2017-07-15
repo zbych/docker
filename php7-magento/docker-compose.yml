@@ -1,0 +1,28 @@
+web:
+  build: .
+  ports:
+   - "80:80"
+  volumes:
+   - .:/var/www/current/
+   - /home/zbychu/.ssh:/root/.ssh.back/
+   - /home/zbychu/.composer:/root/.composer.back
+  links:
+   - redis
+   - mysql
+  env_file: .env
+  environment:
+    - 'FASTCGI_TIMEOUT=1800'
+    - 'PHP_MEMORY_LIMIT=512M'
+    - 'XDEBUG_REMOTE_HOST=127.0.0.1'
+redis:
+  image: redis
+  ports:
+    - "6379:6379"
+mysql:
+  image: mysql/mysql-server
+  ports:
+    - "3306:3306"
+  volumes:
+    - /var/lib/docker/db/verdeavis:/var/lib/mysql
+  environment:
+   - 'MYSQL_ROOT_PASSWORD=admin'
