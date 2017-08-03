@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-MAINTAINER VerdeAvis
+MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
 ENV FASTCGI_TIMEOUT=1800 \
     PHP_MEMORY_LIMIT=512M \
@@ -76,8 +76,11 @@ RUN mkdir -p /run/php \
     && mkdir -p /var/www/current \
     && chown www-data:www-data -R /var/www
 
-ADD https://getcomposer.org/composer.phar /usr/bin/composer
-RUN chmod +rx /usr/bin/composer
+ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
+RUN chmod 755 /usr/local/bin/composer
+
+ADD https://files.magerun.net/n98-magerun2.phar /usr/local/bin/magerun
+RUN chmod 755 /usr/local/bin/magerun
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
