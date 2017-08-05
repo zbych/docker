@@ -22,6 +22,14 @@ ADD https://github.com/jwilder/dockerize/releases/download/v0.5.0/dockerize-linu
 RUN tar -C /usr/local/bin -xzf /tmp/dockerize.tgz \
     && rm /tmp/dockerize.tgz
 
+# Composer
+ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
+RUN chmod +rx /usr/local/bin/composer
+
+# Magerun
+ADD https://files.magerun.net/n98-magerun.phar /usr/local/bin/magerun
+RUN chmod +rx /usr/local/bin/magerun
+
 # Dockerized files needs to be moved to TMP dir.
 RUN mkdir /var/docker/ \
     && mkdir /var/docker/php5 \
@@ -57,12 +65,6 @@ RUN chmod 777 /var/docker/run.sh \
     && chsh -s /bin/bash www-data \
     && mkdir -p /var/www/current \
     && chown www-data:www-data -R /var/www
-
-ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
-RUN chmod +rx /usr/local/bin/composer
-
-ADD https://files.magerun.net/n98-magerun.phar /usr/local/bin/magerun
-RUN chmod +rx /usr/local/bin/magerun
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
