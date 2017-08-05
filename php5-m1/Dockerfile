@@ -24,10 +24,10 @@ RUN tar -C /usr/local/bin -xzf /tmp/dockerize.tgz \
 
 # Dockerized files needs to be moved to TMP dir.
 RUN mkdir /var/docker/ \
-  && mkdir /var/docker/php5 \
-  && mkdir /var/docker/php5/cli \
-  && mkdir /var/docker/php5/fpm \
-  && mkdir /var/docker/nginx
+    && mkdir /var/docker/php5 \
+    && mkdir /var/docker/php5/cli \
+    && mkdir /var/docker/php5/fpm \
+    && mkdir /var/docker/nginx
 
 # Copy files to Image:
 COPY .docker/nginx/* /var/docker/nginx/
@@ -40,13 +40,14 @@ COPY .docker/tools/* /usr/local/bin/
 
 # NODE, GRUNT
 workdir /root/
-ADD https://nodejs.org/dist/v6.10.3/node-v6.10.3-linux-x64.tar.xz /tmp/node-v6.10.3-linux-x64.tar.xz
-RUN unxz /tmp/node-v6.10.3-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-v6.10.3-linux-x64.tar \
-    && rm /tmp/node-v6.10.3-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v6.10.3-linux-x64/bin \
+ADD https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.xz /tmp/node-v6.11.2-linux-x64.tar.xz
+RUN unxz /tmp/node-v6.11.2-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-v6.11.2-linux-x64.tar \
+    && rm /tmp/node-v6.11.2-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-v6.11.2-linux-x64/bin \
     && npm install -g grunt
 
+# Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
 
 RUN chmod 777 /var/docker/run.sh \
