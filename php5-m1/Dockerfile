@@ -30,13 +30,15 @@ RUN mkdir /var/docker/ \
     && mkdir /var/docker/nginx
 
 # Copy files to Image:
-COPY .docker/nginx/* /var/docker/nginx/
-COPY .docker/php5/* /var/docker/php5/
-COPY .docker/php5/cli/* /var/docker/php5/cli/
-COPY .docker/php5/fpm/* /var/docker/php5/fpm/
-COPY .docker/supervisor/* /etc/supervisor/conf.d/
 COPY .docker/run.sh /var/docker/
-COPY .docker/tools/* /usr/local/bin/
+COPY .docker/nginx/default.conf /var/docker/nginx/
+COPY .docker/nginx/nginx.conf /var/docker/nginx/
+COPY .docker/php5/xdebug.ini /var/docker/php5/
+COPY .docker/php5/cli/php.ini /var/docker/php5/cli/
+COPY .docker/php5/fpm/php.ini /var/docker/php5/fpm/
+COPY .docker/php5/fpm/www.conf /var/docker/php5/fpm/
+COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
+COPY .docker/tools/cli-debug /usr/local/bin/
 
 # NODE, GRUNT
 workdir /root/
