@@ -4,7 +4,9 @@ MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
 ENV FASTCGI_TIMEOUT=1800 \
     PHP_MEMORY_LIMIT=512M \
-    XDEBUG_REMOTE_PORT=9000
+    XDEBUG_REMOTE_HOST=127.0.0.1 \
+    XDEBUG_REMOTE_PORT=9000 \
+    TIME_ZONE="Europe/Warsaw"
 
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
@@ -22,69 +24,71 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Dockerize
-RUN curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz -o dockerize.tgz \
-    && tar -C /usr/local/bin -xzf dockerize.tgz \
-    && rm dockerize.tgz
+ADD https://github.com/jwilder/dockerize/releases/download/v0.5.0/dockerize-linux-amd64-v0.5.0.tar.gz /tmp/dockerize.tgz
+RUN tar -C /usr/local/bin -xzf /tmp/dockerize.tgz \
+    && rm /tmp/dockerize.tgz
 
-# Dockerized files needs to be moved to TMP dir.
-COPY .docker/nginx/nginx.conf /tmp/
-COPY .docker/nginx/default.conf /tmp/
-COPY .docker/php7/xdebug.ini /tmp/
-COPY .docker/php7/php.ini /tmp/
+# Composer
+ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
+RUN chmod 755 /usr/local/bin/composer
 
-RUN dockerize -template=/tmp/nginx.conf:/etc/nginx/nginx.conf /bin/true \
-    && dockerize -template=/tmp/default.conf:/etc/nginx/conf.d/default.conf /bin/true \
-    && dockerize -template=/tmp/php.ini:/etc/php/7.0/fpm/php.ini /bin/true
-COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY .docker/run.sh /var/run.sh
-COPY .docker/tools/* /usr/local/bin/
+# Magerun
+ADD https://files.magerun.net/n98-magerun2.phar /usr/local/bin/magerun
+RUN chmod 755 /usr/local/bin/magerun
+
+# Create mandatory paths:
+RUN mkdir /var/docker/ \
+    && mkdir /var/docker/php7 \
+    && mkdir /var/docker/php7/fpm \
+    && mkdir /var/docker/php7/cli \
+    && mkdir /var/docker/nginx
+
+# Copy templates to Image:
+COPY .docker/run.sh /var/docker/
+COPY .docker/nginx/default.conf /var/docker/nginx/
+COPY .docker/nginx/nginx.conf /var/docker/nginx/
+COPY .docker/php7/xdebug.ini /var/docker/php7/
+COPY .docker/php7/cli/php.ini /var/docker/php7/cli/
+COPY .docker/php7/fpm/php.ini /var/docker/php7/fpm/
+COPY .docker/php7/fpm/www.conf /var/docker/php7/fpm/
+COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
+COPY .docker/tools/cli-debug /usr/local/bin/
 
 # XDEBUG
-WORKDIR /root/
-RUN curl -L https://xdebug.org/files/xdebug-2.5.3.tgz -o xdebug-2.5.3.tgz \
-    && tar -C /var/local/ -xzf xdebug-2.5.3.tgz
-WORKDIR /var/local/xdebug-2.5.3
-RUN phpize
-RUN chmod u+x /var/local/xdebug-2.5.3/configure
-WORKDIR /var/local/xdebug-2.5.3/
-RUN ./configure
-WORKDIR /var/local/xdebug-2.5.3/
-RUN make \
-    && cp /var/local/xdebug-2.5.3/modules/xdebug.so /usr/lib/php/20151012 \
-    && mkdir -p /etc/php/mods-available/ \
-    && dockerize -template=/tmp/xdebug.ini:/etc/php/mods-available/xdebug.ini /bin/true \
-    && ln -s /etc/php/mods-available/xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
-    && ln -s /etc/php/mods-available/xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini \
-    && rm -rf /root/xdebug-2.5.3.tgz \
-    && rm /tmp/*.conf /tmp/*.ini
+ADD https://xdebug.org/files/xdebug-2.5.5.tgz /tmp/xdebug-2.5.5.tgz
+RUN tar -C /var/local/ -xzf /tmp/xdebug-2.5.5.tgz
+WORKDIR /var/local/xdebug-2.5.5
+RUN phpize \
+    && chmod u+x configure \
+    && ./configure \
+    && make \
+    && cp /var/local/xdebug-2.5.5/modules/xdebug.so /usr/lib/php/20151012 \
+    && touch /etc/php/7.0/mods-available/xdebug.ini \
+    && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini \
+    && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
+    && rm /tmp/xdebug-2.5.5.tgz
 
 # NODE, GRUNT
-workdir /root/
-RUN curl -L https://nodejs.org/dist/v6.10.3/node-v6.10.3-linux-x64.tar.xz -o node-v6.10.3-linux-x64.tar.xz \
-    && unxz node-v6.10.3-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf node-v6.10.3-linux-x64.tar \
-    && rm node-v6.10.3-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v6.10.3-linux-x64/bin \
+ADD https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.xz /tmp/node-v6.11.2-linux-x64.tar.xz
+RUN unxz /tmp/node-v6.11.2-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-v6.11.2-linux-x64.tar \
+    && rm /tmp/node-v6.11.2-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-v6.11.2-linux-x64/bin \
     && npm install -g grunt
 
+# Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
 
 RUN mkdir -p /run/php \
-    && chmod 777 /var/run.sh \
+    && chmod 777 /var/docker/run.sh \
     && usermod -u 1000 www-data \
     && chsh -s /bin/bash www-data \
     && mkdir -p /var/www/current \
     && chown www-data:www-data -R /var/www
-
-ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
-RUN chmod 755 /usr/local/bin/composer
-
-ADD https://files.magerun.net/n98-magerun2.phar /usr/local/bin/magerun
-RUN chmod 755 /usr/local/bin/magerun
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 80 80
 WORKDIR /var/www/current
-CMD ["/var/run.sh"]
+CMD ["/var/docker/run.sh"]

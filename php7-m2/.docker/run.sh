@@ -1,11 +1,18 @@
 #!/bin/bash
 
+# Dockerize configuration files
+dockerize \
+    -template=/var/docker/nginx/nginx.conf:/etc/nginx/nginx.conf \
+    -template=/var/docker/nginx/default.conf:/etc/nginx/sites-enabled/$SITE_DOMAIN.conf \
+    -template=/var/docker/php7/cli/php.ini:/etc/php/7.0/cli/php.ini \
+    -template=/var/docker/php7/fpm/php.ini:/etc/php/7.0/fpm/php.ini \
+    -template=/var/docker/php7/fpm/www.conf:/etc/php/7.0/fpm/pool.d/www.conf \
+    -template=/var/docker/php7:/etc/php/7.0/mods-available/xdebug.ini
+
 # Clean logs
 echo "" > /var/log/nginx/access.log
 echo "" > /var/log/nginx/error.log
-echo "" > /var/log/cron.log
-echo "" > /var/log/debug.log
-echo "" > /var/log/system.log
+echo "" > /var/log/php7.0-fpm.log
 
 echo "Setting up SSH Keys"
 mkdir -p /root/.ssh
@@ -30,7 +37,7 @@ then
 fi
 /usr/sbin/cron
 
-echo "export PATH=\$PATH:/usr/local/node-v6.10.3-linux-x64/bin" > /var/www/.bashrc
-echo "export PATH=\$PATH:/usr/local/node-v6.10.3-linux-x64/bin" >> /root/.bashrc
+echo "export PATH=\$PATH:/usr/local/node-v6.11.2-linux-x64/bin" > /var/www/.bashrc
+echo "export PATH=\$PATH:/usr/local/node-v6.11.2-linux-x64/bin" >> /root/.bashrc
 
 exec /usr/bin/supervisord
