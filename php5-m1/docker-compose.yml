@@ -4,8 +4,8 @@ web:
    - "80:80"
   volumes:
    - .:/var/www/current/
-   - <USER_DIR>/.ssh:/root/.ssh.back/
-   - <USER_DIR>/.composer:/root/.composer.back
+   - $HOME/.ssh:/root/.ssh.back/
+   - $HOME/.composer:/root/.composer.back
   links:
    - redis
    - mysql
