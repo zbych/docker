@@ -4,6 +4,7 @@ MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
 ENV FASTCGI_TIMEOUT=1800 \
     PHP_MEMORY_LIMIT=512M \
+    VHOST_NAME=default.conf \
     XDEBUG_REMOTE_HOST=127.0.0.1 \
     XDEBUG_REMOTE_PORT=9000 \
     TIME_ZONE="Europe/Warsaw"
@@ -46,6 +47,7 @@ RUN mkdir /var/docker/ \
 # Copy templates to Image:
 COPY .docker/run.sh /var/docker/
 COPY .docker/nginx/default.conf /var/docker/nginx/
+COPY .docker/nginx/magento.conf /var/docker/nginx/
 COPY .docker/nginx/nginx.conf /var/docker/nginx/
 COPY .docker/php7/xdebug.ini /var/docker/php7/
 COPY .docker/php7/cli/php.ini /var/docker/php7/cli/

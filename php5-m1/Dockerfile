@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-MAINTAINER Zbigniew Labacz <zbigniew.labacz@gmail.com>
+MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
 ENV FASTCGI_TIMEOUT=1800 \
     PHP_MEMORY_LIMIT=512M \

@@ -12,6 +12,7 @@ web:
   env_file: .env
   environment:
     - 'SITE_DOMAIN=<SITE-DOMAIN>'
+    - 'VHOST_NAME=magento.conf'
     - 'FASTCGI_TIMEOUT=1800'
     - 'PHP_MEMORY_LIMIT=512M'
     - 'XDEBUG_REMOTE_HOST=127.0.0.1'

@@ -29,6 +29,6 @@ mysql:
 
     - "3306:3306"
   volumes:
-    - /mnt/docker/db/<SITE_DOMAIN>:/var/lib/mysql
+    - /var/lib/docker/db/<SITE_DOMAIN>:/var/lib/mysql
   environment:
    - 'MYSQL_ROOT_PASSWORD=admin'
