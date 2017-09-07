@@ -17,6 +17,9 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
+# Curl
+ADD https://curl.haxx.se/ca/cacert.pem /var/www
+
 # Dockerize
 ADD https://github.com/jwilder/dockerize/releases/download/v0.5.0/dockerize-linux-amd64-v0.5.0.tar.gz /tmp/dockerize.tgz
 RUN tar -C /usr/local/bin -xzf /tmp/dockerize.tgz \
