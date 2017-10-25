@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Arguments: "
+  echo "  help"
+  echo "  container [domain.dev]"
+  exit 0
+fi
+
+if [ $1 = "help" ]; then
+  ls ~/dev/docker | grep php
+  exit 0
+fi
+
+cp -r ~/dev/docker/$1/.docker .
+cp -r ~/dev/docker/$1/Dockerfile .
+cp -r ~/dev/docker/$1/docker-compose.yml .
+cp -r ~/dev/docker/$1/.env .
+
+if [ "$2" != "" ]; then
+  sed -i -e "s/<SITE-DOMAIN>/$2/" .env
+  sed -i -e "s/<SITE_DOMAIN>/$2/" docker-compose.yml
+fi
