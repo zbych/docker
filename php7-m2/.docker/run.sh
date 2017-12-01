@@ -34,6 +34,7 @@ echo "Setting up cron..."
 if ! grep -q "* * * * * www-data" /etc/crontab ;
 then
     echo '* * * * * www-data cd /var/www/current/ && /usr/bin/php bin/magento cron:run >> /var/www/current/var/log/cron.log 2>&1' >> /etc/crontab
+    echo '* * * * * www-data cd /var/www/current/ && /usr/bin/php bin/magento setup:cron:run >> /var/www/current/var/log/setup.cron.log 2>&1' >> /etc/crontab
 fi
 /usr/sbin/cron
 
