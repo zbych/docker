@@ -18,7 +18,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && sed -i "s/httpredir.debian.org/`curl -s -D - http://httpredir.debian.org/demo/debian/ | awk '/^Link:/ { print $2 }' | sed -e 's@<http://\(.*\)/debian/>;@\1@g'`/" /etc/apt/sources.list \
     && apt-get clean && apt-get update \
     && apt-get -y --no-install-recommends install xz-utils cron nginx inetutils-ping supervisor dnsutils make vim git ssh \
-      mysql-client redis-tools php7.0 php7.0-fpm php7.0-dev php7.0-curl php7.0-gd php7.0-intl php7.0-json \
+      mysql-client redis-tools php7.0 php7.0-fpm php7.0-dev php7.0-curl php7.0-gd php7.0-intl php7.0-json php7.0-soap \
       php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt php7.0-opcache php7.0-readline php7.0-apcu \
       php7.0-zip php7.0-apcu-bc php7.0-xsl php7.0-mbstring \
     && apt-get clean \
