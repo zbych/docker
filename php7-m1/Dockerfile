@@ -37,7 +37,7 @@ ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
 
 # Magerun
-ADD https://files.magerun.net/n98-magerun2.phar /usr/local/bin/magerun
+ADD https://files.magerun.net/n98-magerun.phar /usr/local/bin/magerun
 RUN chmod 755 /usr/local/bin/magerun
 
 # Create mandatory paths:
