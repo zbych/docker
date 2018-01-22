@@ -50,7 +50,6 @@ RUN mkdir /var/docker/ \
 # Copy templates to Image:
 COPY .docker/run.sh /var/docker/
 COPY .docker/nginx/default.conf /var/docker/nginx/
-COPY .docker/nginx/magento.conf /var/docker/nginx/
 COPY .docker/nginx/nginx.conf /var/docker/nginx/
 COPY .docker/php7/xdebug.ini /var/docker/php7/
 COPY .docker/php7/cli/php.ini /var/docker/php7/cli/
