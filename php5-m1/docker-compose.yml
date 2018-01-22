@@ -27,7 +27,6 @@ redis:
 mysql:
   image: mysql/mysql-server
   ports:
-
     - "3306:3306"
   volumes:
     - /var/lib/docker/db/<SITE_DOMAIN>:/var/lib/mysql

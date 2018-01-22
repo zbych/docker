@@ -28,12 +28,9 @@ echo "Docker initialized."
 
 if [ "$2" != "" ]; then
   sed -i -e "s/<SITE-DOMAIN>/$2/" .env
-  sed -i -e "s/<SITE_DOMAIN>/$2/" docker-compose.yml
-  echo "Configuration files patched."
+  sed -i -e "s/<SITE-DOMAIN>/$2/" docker-compose.yml
+  echo "Configuration files patched successfully."
 fi
 
 echo "Type: '$ sudo docker-compose up' to build and start containers"
 exit 0
-
-
-
