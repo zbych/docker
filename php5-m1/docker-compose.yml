@@ -25,10 +25,12 @@ redis:
     - "6379:6379"
 
 mysql:
-  image: mysql/mysql-server
+  image: mysql/mysql-server:5.5.59
   ports:
     - "3306:3306"
   volumes:
     - /var/lib/docker/db/<SITE_DOMAIN>:/var/lib/mysql
   environment:
    - 'MYSQL_ROOT_PASSWORD=admin'
+   - 'MYSQL_LOG_CONSOLE=true'
+   - "MYSQL_ROOT_HOST=%"
