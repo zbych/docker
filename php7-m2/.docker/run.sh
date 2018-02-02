@@ -39,7 +39,10 @@ then
 fi
 /usr/sbin/cron
 
-echo "export PATH=\$PATH:/usr/local/node-v6.11.2-linux-x64/bin" > /var/www/.bashrc
-echo "export PATH=\$PATH:/usr/local/node-v6.11.2-linux-x64/bin" >> /root/.bashrc
+if ! grep -q "/usr/local/node" /root/.bashrc ;
+then
+    echo "export PATH=\$PATH:/usr/local/node-v6.11.2-linux-x64/bin" > /var/www/.bashrc
+    echo "export PATH=\$PATH:/usr/local/node-v6.11.2-linux-x64/bin" >> /root/.bashrc
+fi
 
 exec /usr/bin/supervisord
