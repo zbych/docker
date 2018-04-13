@@ -22,7 +22,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
       php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt php7.0-opcache php7.0-readline php7.0-apcu \
       php7.0-zip php7.0-apcu-bc php7.0-xsl php7.0-mbstring ca-certificates \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
+    && update-ca-certificates
 
 # Curl
 ADD https://curl.haxx.se/ca/cacert.pem /var/www
