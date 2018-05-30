@@ -12,15 +12,14 @@ ENV FASTCGI_TIMEOUT=1800 \
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y curl \
-    && echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list \
-    && curl -sS https://www.dotdeb.org/dotdeb.gpg | apt-key add - \
-    && sed -i "s/httpredir.debian.org/`curl -s -D - http://httpredir.debian.org/demo/debian/ | awk '/^Link:/ { print $2 }' | sed -e 's@<http://\(.*\)/debian/>;@\1@g'`/" /etc/apt/sources.list \
+    && apt-get install -y curl wget apt-transport-https lsb-release ca-certificates \
+    && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
+    && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
     && apt-get clean && apt-get update \
-    && apt-get -y --no-install-recommends install xz-utils cron nginx inetutils-ping supervisor dnsutils make vim git ssh \
-      mysql-client redis-tools php7.0 php7.0-fpm php7.0-dev php7.0-curl php7.0-gd php7.0-intl php7.0-json php7.0-soap \
-      php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt php7.0-opcache php7.0-readline php7.0-apcu \
-      php7.0-zip php7.0-apcu-bc php7.0-xsl php7.0-mbstring ca-certificates g++ \
+    && apt-get -y --no-install-recommends install xz-utils cron nginx inetutils-ping supervisor dnsutils make vim git ssh g++ \
+      mysql-client redis-tools php7.2 php7.2-common php7.2-fpm php7.2-dev php7.2-curl php7.2-gd php7.2-intl php7.2-json php7.2-soap \
+      php7.2-phpdbg php7.2-redis php7.2-mysql php7.2-cli php7.2-opcache php7.2-apcu \
+      php7.2-zip php7.2-apcu-bc php7.2-xsl php7.2-mbstring \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
     && update-ca-certificates
@@ -37,10 +36,6 @@ RUN tar -C /usr/local/bin -xzf /tmp/dockerize.tgz \
 ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
 
-# Magerun
-ADD https://files.magerun.net/n98-magerun2.phar /usr/local/bin/magerun
-RUN chmod 755 /usr/local/bin/magerun
-
 # Create mandatory paths:
 RUN mkdir /var/docker/ \
     && mkdir /var/docker/php7 \
@@ -51,7 +46,6 @@ RUN mkdir /var/docker/ \
 # Copy templates to Image:
 COPY .docker/run.sh /var/docker/
 COPY .docker/nginx/default.conf /var/docker/nginx/
-COPY .docker/nginx/magento.conf /var/docker/nginx/
 COPY .docker/nginx/nginx.conf /var/docker/nginx/
 COPY .docker/php7/xdebug.ini /var/docker/php7/
 COPY .docker/php7/cli/php.ini /var/docker/php7/cli/
@@ -61,29 +55,29 @@ COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY .docker/tools/cli-debug /usr/local/bin/
 
 # XDEBUG
-ADD https://xdebug.org/files/xdebug-2.5.5.tgz /tmp/xdebug-2.5.5.tgz
-RUN tar -C /var/local/ -xzf /tmp/xdebug-2.5.5.tgz
-WORKDIR /var/local/xdebug-2.5.5
+ADD https://xdebug.org/files/xdebug-2.6.0.tgz /tmp/xdebug-2.6.0.tgz
+RUN tar -C /var/local/ -xzf /tmp/xdebug-2.6.0.tgz
+WORKDIR /var/local/xdebug-2.6.0
 RUN phpize \
     && chmod u+x configure \
     && ./configure \
     && make \
-    && cp /var/local/xdebug-2.5.5/modules/xdebug.so /usr/lib/php/20151012 \
-    && touch /etc/php/7.0/mods-available/xdebug.ini \
-    && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini \
-    && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
-    && rm /tmp/xdebug-2.5.5.tgz
+    && cp /var/local/xdebug-2.6.0/modules/xdebug.so /usr/lib/php/20151012 \
+    && touch /etc/php/7.2/mods-available/xdebug.ini \
+    && ln -s /etc/php/7.2/mods-available/xdebug.ini /etc/php/7.2/cli/conf.d/20-xdebug.ini \
+    && ln -s /etc/php/7.2/mods-available/xdebug.ini /etc/php/7.2/fpm/conf.d/20-xdebug.ini \
+    && rm /tmp/xdebug-2.6.0.tgz
 
 # NODE, GRUNT
-ADD https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.xz /tmp/node-v6.11.2-linux-x64.tar.xz
-RUN unxz /tmp/node-v6.11.2-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-v6.11.2-linux-x64.tar \
-    && rm /tmp/node-v6.11.2-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v6.11.2-linux-x64/bin \
-    && npm install -g grunt
+ADD https://nodejs.org/dist/v8.11.2/node-v8.11.2-linux-x64.tar.xz /tmp/node-v8.11.2-linux-x64.tar.xz
+RUN unxz /tmp/node-v8.11.2-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-v8.11.2-linux-x64.tar \
+    && rm /tmp/node-v8.11.2-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-v8.11.2-linux-x64/bin \
+    && npm install -g gulp
 
 # Set PHP-FPM running as non-daemon
-RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
+RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.2/fpm/php-fpm.conf
 
 RUN mkdir -p /run/php \
     && chmod 777 /var/docker/run.sh \
