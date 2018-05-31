@@ -24,13 +24,6 @@ chmod 600 /root/.ssh/id_rsa
 chmod 600 /var/www/.ssh/id_rsa
 chown www-data:www-data -R /var/www/.ssh/
 
-echo "Setting up Composer"
-mkdir -p /root/.composer
-mkdir -p /var/www/.composer
-cp /root/.composer.back/*.json /root/.composer/
-cp /root/.composer.back/*.json /var/www/.composer/
-chown www-data:www-data -R /var/www/.composer/
-
 if ! grep -q "/usr/local/node" /root/.bashrc ;
 then
     echo "export PATH=\$PATH:/usr/local/node-v8.11.2-linux-x64/bin" > /var/www/.bashrc

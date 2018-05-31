@@ -53,12 +53,12 @@ COPY .docker/tools/cli-debug /usr/local/bin/
 
 # NODE, GRUNT
 workdir /root/
-ADD https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.xz /tmp/node-v6.11.2-linux-x64.tar.xz
-RUN unxz /tmp/node-v6.11.2-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-v6.11.2-linux-x64.tar \
-    && rm /tmp/node-v6.11.2-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v6.11.2-linux-x64/bin \
-    && npm install -g grunt
+ADD https://nodejs.org/dist/v8.11.2/node-v8.11.2-linux-x64.tar.xz /tmp/node-v8.11.2-linux-x64.tar.xz
+RUN unxz /tmp/node-v8.11.2-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-v8.11.2-linux-x64.tar \
+    && rm /tmp/node-v8.11.2-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-v8.11.2-linux-x64/bin \
+    && npm install -g gulp
 
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf

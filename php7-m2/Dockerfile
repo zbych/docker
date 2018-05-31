@@ -12,15 +12,15 @@ ENV FASTCGI_TIMEOUT=1800 \
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y curl \
+    && apt-get install -y ca-certificates curl \
     && echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list \
     && curl -sS https://www.dotdeb.org/dotdeb.gpg | apt-key add - \
     && sed -i "s/httpredir.debian.org/`curl -s -D - http://httpredir.debian.org/demo/debian/ | awk '/^Link:/ { print $2 }' | sed -e 's@<http://\(.*\)/debian/>;@\1@g'`/" /etc/apt/sources.list \
     && apt-get clean && apt-get update \
-    && apt-get -y --no-install-recommends install xz-utils cron nginx inetutils-ping supervisor dnsutils make vim git ssh \
+    && apt-get -y --no-install-recommends install xz-utils cron nginx inetutils-ping supervisor dnsutils make vim git ssh g++ \
       mysql-client redis-tools php7.0 php7.0-fpm php7.0-dev php7.0-curl php7.0-gd php7.0-intl php7.0-json php7.0-soap \
       php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt php7.0-opcache php7.0-readline php7.0-apcu \
-      php7.0-zip php7.0-apcu-bc php7.0-xsl php7.0-mbstring ca-certificates g++ \
+      php7.0-zip php7.0-apcu-bc php7.0-xsl php7.0-mbstring \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
     && update-ca-certificates
@@ -61,18 +61,18 @@ COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY .docker/tools/cli-debug /usr/local/bin/
 
 # XDEBUG
-ADD https://xdebug.org/files/xdebug-2.5.5.tgz /tmp/xdebug-2.5.5.tgz
-RUN tar -C /var/local/ -xzf /tmp/xdebug-2.5.5.tgz
-WORKDIR /var/local/xdebug-2.5.5
+ADD https://xdebug.org/files/xdebug-2.6.0.tgz /tmp/xdebug-2.6.0.tgz
+RUN tar -C /var/local/ -xzf /tmp/xdebug-2.6.0.tgz
+WORKDIR /var/local/xdebug-2.6.0
 RUN phpize \
     && chmod u+x configure \
     && ./configure \
     && make \
-    && cp /var/local/xdebug-2.5.5/modules/xdebug.so /usr/lib/php/20151012 \
+    && cp /var/local/xdebug-2.6.0/modules/xdebug.so /usr/lib/php/20151012 \
     && touch /etc/php/7.0/mods-available/xdebug.ini \
     && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini \
     && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
-    && rm /tmp/xdebug-2.5.5.tgz
+    && rm /tmp/xdebug-2.6.0.tgz
 
 # NODE, GRUNT
 ADD https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.xz /tmp/node-v6.11.2-linux-x64.tar.xz
