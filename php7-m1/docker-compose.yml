@@ -11,7 +11,7 @@ web:
    - mysql
   env_file: .env
   environment:
-    - 'SITE_DOMAIN=<SITE-DOMAIN>'
+    - 'SITE_DOMAIN=<SITE_DOMAIN>'
     - 'VHOST_NAME=default.conf'
     - 'FASTCGI_TIMEOUT=1800'
     - 'PHP_MEMORY_LIMIT=512M'
