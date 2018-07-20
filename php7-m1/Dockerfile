@@ -5,7 +5,7 @@ MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 ENV FASTCGI_TIMEOUT=1800 \
     PHP_MEMORY_LIMIT=512M \
     VHOST_NAME=default.conf \
-    XDEBUG_REMOTE_HOST=127.0.0.1 \
+    XDEBUG_REMOTE_HOST=172.17.0.1 \
     XDEBUG_REMOTE_PORT=9000 \
     TIME_ZONE="Europe/Warsaw"
 

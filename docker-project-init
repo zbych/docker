@@ -27,8 +27,8 @@ cp -r ~/dev/docker/$1/.env .
 echo "Docker initialized."
 
 if [ "$2" != "" ]; then
-  sed -i -e "s/<SITE-DOMAIN>/$2/" .env
-  sed -i -e "s/<SITE-DOMAIN>/$2/" docker-compose.yml
+  sed -i -e "s/<SITE_DOMAIN>/$2/" .env
+  sed -i -e "s/<SITE_DOMAIN>/$2/" docker-compose.yml
   echo "Configuration files patched successfully."
 fi
 

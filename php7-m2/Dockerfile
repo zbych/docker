@@ -1,28 +1,24 @@
-FROM debian:jessie
+FROM debian:stretch
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
 ENV FASTCGI_TIMEOUT=1800 \
     PHP_MEMORY_LIMIT=512M \
     VHOST_NAME=default.conf \
-    XDEBUG_REMOTE_HOST=127.0.0.1 \
+    XDEBUG_REMOTE_HOST=172.17.0.1 \
     XDEBUG_REMOTE_PORT=9000 \
     TIME_ZONE="Europe/Warsaw"
 
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y ca-certificates curl \
-    && echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list \
-    && curl -sS https://www.dotdeb.org/dotdeb.gpg | apt-key add - \
-    && sed -i "s/httpredir.debian.org/`curl -s -D - http://httpredir.debian.org/demo/debian/ | awk '/^Link:/ { print $2 }' | sed -e 's@<http://\(.*\)/debian/>;@\1@g'`/" /etc/apt/sources.list \
     && apt-get clean && apt-get update \
-    && apt-get -y --no-install-recommends install xz-utils cron nginx inetutils-ping supervisor dnsutils make vim git ssh g++ \
-      mysql-client redis-tools php7.0 php7.0-fpm php7.0-dev php7.0-curl php7.0-gd php7.0-intl php7.0-json php7.0-soap \
-      php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt php7.0-opcache php7.0-readline php7.0-apcu \
-      php7.0-zip php7.0-apcu-bc php7.0-xsl php7.0-mbstring \
+    && apt-get -y --no-install-recommends install curl xz-utils cron nginx nginx-common nginx-extras inetutils-ping \
+      supervisor dnsutils make vim git ssh mysql-client redis-tools php7.0 php7.0-fpm php7.0-dev php7.0-curl php7.0-gd \
+      php7.0-intl php7.0-json php7.0-soap php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt php7.0-opcache \
+      php7.0-readline php7.0-memcached php7.0-zip php7.0-xsl php7.0-mbstring ca-certificates \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*\
     && update-ca-certificates
 
 # Curl

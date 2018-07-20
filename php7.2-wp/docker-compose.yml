@@ -11,11 +11,11 @@ web:
    - mysql
   env_file: .env
   environment:
-    - 'SITE_DOMAIN=<SITE-DOMAIN>'
+    - 'SITE_DOMAIN=<SITE_DOMAIN>'
     - 'VHOST_NAME=default.conf'
     - 'FASTCGI_TIMEOUT=1800'
     - 'PHP_MEMORY_LIMIT=512M'
-    - 'XDEBUG_REMOTE_HOST=127.0.0.1'
+    - 'XDEBUG_REMOTE_HOST=172.17.0.1'
     - 'XDEBUG_REMOTE_PORT=9000'
     - 'TIME_ZONE="Europe/Warsaw"'
 
