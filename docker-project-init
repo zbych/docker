@@ -9,7 +9,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ $1 = "help" ]; then
-  echo "Available containers:"
+  echo "Available environments:"
   ls ~/dev/docker | grep php
   exit 0
 fi
