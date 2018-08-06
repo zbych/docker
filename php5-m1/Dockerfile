@@ -53,11 +53,11 @@ COPY .docker/tools/cli-debug /usr/local/bin/
 
 # NODE, GRUNT
 workdir /root/
-ADD https://nodejs.org/dist/v8.11.2/node-v8.11.2-linux-x64.tar.xz /tmp/node-v8.11.2-linux-x64.tar.xz
-RUN unxz /tmp/node-v8.11.2-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-v8.11.2-linux-x64.tar \
-    && rm /tmp/node-v8.11.2-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v8.11.2-linux-x64/bin \
+ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-linux-x64.tar.xz /tmp/node-v8.11.3-linux-x64.tar.xz
+RUN unxz /tmp/node-v8.11.3-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-v8.11.3-linux-x64.tar \
+    && rm /tmp/node-v8.11.3-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-v8.11.3-linux-x64/bin \
     && npm install -g gulp
 
 # Set PHP-FPM running as non-daemon

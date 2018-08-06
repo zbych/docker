@@ -69,12 +69,12 @@ RUN phpize \
     && rm /tmp/xdebug-2.6.0.tgz
 
 # NODE, GULP
-ADD https://nodejs.org/dist/v8.11.2/node-v8.11.2-linux-x64.tar.xz /tmp/node-v8.11.2-linux-x64.tar.xz
-RUN unxz /tmp/node-v8.11.2-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-v8.11.2-linux-x64.tar \
-    && rm /tmp/node-v8.11.2-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v8.11.2-linux-x64/bin \
-    && npm install -g gulp
+ADD https://nodejs.org/dist/v8.11.2/node-v8.11.3-linux-x64.tar.xz /tmp/node-v8.11.3-linux-x64.tar.xz
+RUN unxz /tmp/node-v8.11.3-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-v8.11.3-linux-x64.tar \
+    && rm /tmp/node-v8.11.3-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-v8.11.3-linux-x64/bin \
+    && npm install -g
 
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.2/fpm/php-fpm.conf
