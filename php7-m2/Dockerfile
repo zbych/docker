@@ -43,7 +43,8 @@ RUN mkdir /var/docker/ \
     && mkdir /var/docker/php7 \
     && mkdir /var/docker/php7/fpm \
     && mkdir /var/docker/php7/cli \
-    && mkdir /var/docker/nginx
+    && mkdir /var/docker/nginx \
+    && mkdir /var/docker/etc
 
 # Copy templates to Image:
 COPY .docker/run.sh /var/docker/
@@ -56,6 +57,7 @@ COPY .docker/php7/fpm/php.ini /var/docker/php7/fpm/
 COPY .docker/php7/fpm/www.conf /var/docker/php7/fpm/
 COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY .docker/tools/cli-debug /usr/local/bin/
+COPY .docker/etc/env.php /var/docker/etc/
 
 # XDEBUG
 ADD https://xdebug.org/files/xdebug-2.6.0.tgz /tmp/xdebug-2.6.0.tgz
