@@ -14,7 +14,7 @@ services:
      - mysql
     env_file: .env
     environment:
-      - 'SITE_DOMAIN=<SITE_DOMAIN>.local'
+      - 'PROJECT=<PROJECT>'
       - 'VHOST_NAME=magento.conf'
       - 'FASTCGI_TIMEOUT=1800'
       - 'PHP_MEMORY_LIMIT=512M'

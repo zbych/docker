@@ -4,7 +4,7 @@ if [ -z "$1" ]; then
   echo "Arguments: "
   echo "  help"
   echo "  purge"
-  echo "  container [domain.dev]"
+  echo "  container_name project"
   exit 0
 fi
 
@@ -27,8 +27,8 @@ cp -r ~/dev/docker/$1/.env .
 echo "Docker initialized."
 
 if [ "$2" != "" ]; then
-  sed -i -e "s/<SITE_DOMAIN>/$2/" .env
-  sed -i -e "s/<SITE_DOMAIN>/$2/" docker-compose.yml
+  sed -i -e "s/<PROJECT>/$2/g" .env
+  sed -i -e "s/<PROJECT>/$2/g" docker-compose.yml
   echo "Configuration files patched successfully."
 fi
 

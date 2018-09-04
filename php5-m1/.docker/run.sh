@@ -3,7 +3,7 @@
 # Configure Environment
 dockerize \
     -template=/var/docker/nginx/nginx.conf:/etc/nginx/nginx.conf \
-    -template=/var/docker/nginx/$VHOST_NAME:/etc/nginx/sites-enabled/$SITE_DOMAIN.conf \
+    -template=/var/docker/nginx/$VHOST_NAME:/etc/nginx/sites-enabled/$PROJECT.conf \
     -template=/var/docker/php5/cli/php.ini:/etc/php5/cli/php.ini \
     -template=/var/docker/php5/fpm/php.ini:/etc/php5/fpm/php.ini \
     -template=/var/docker/php5/fpm/www.conf:/etc/php5/fpm/pool.d/www.conf \
