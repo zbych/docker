@@ -10,7 +10,7 @@ return [
     'table_prefix' => '',
     'connection' => [
       'default' => [
-        'host' => 'db',
+        'host' => 'mysql',
         'dbname' => '{{ .Env.PROJECT }}',
         'username' => 'root',
         'password' => 'admin',
