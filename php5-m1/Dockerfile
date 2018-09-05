@@ -14,7 +14,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get -y --no-install-recommends install xz-utils cron curl nginx inetutils-ping supervisor dnsutils make vim \
         git ssh mysql-client redis-tools php5 php5-fpm php5-dev php5-curl php5-gd php5-intl php5-json php5-phpdbg \
         php5-redis php5-mysql php5-cli php5-mcrypt php5-apcu php-apc php5-readline php5-apcu php-pclzip php5-xsl \
-        php5-xdebug bzip2 bzip2-libs \
+        php5-xdebug bzip2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
