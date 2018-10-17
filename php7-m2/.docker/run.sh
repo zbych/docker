@@ -16,6 +16,10 @@ echo "" > /var/log/nginx/access.log
 echo "" > /var/log/nginx/error.log
 echo "" > /var/log/php7.0-fpm.log
 
+# Setting up project:
+chmod 664 /var/www/current/app/etc/env.php
+chown www-data:www-data /var/www/current/app/etc/env.php
+
 echo "Setting up SSH Keys"
 mkdir -p /root/.ssh
 mkdir -p /var/www/.ssh

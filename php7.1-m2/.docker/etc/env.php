@@ -4,7 +4,7 @@ return [
     'frontName' => 'admin'
   ],
   'crypt' => [
-    'key' => 'encryption_key'
+    'key' => '{{ .Env.MAGENTO_KEY }}'
   ],
   'db' => [
     'table_prefix' => '',

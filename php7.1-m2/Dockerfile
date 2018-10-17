@@ -76,13 +76,12 @@ RUN phpize \
     && ln -s /etc/php/7.1/mods-available/xdebug.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
     && rm /tmp/xdebug-2.6.0.tgz
 
-# NODE, GRUNT
+# NODE, NPM
 ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-linux-x64.tar.xz /tmp/node-v8.11.3-linux-x64.tar.xz
 RUN unxz /tmp/node-v8.11.3-linux-x64.tar.xz \
     && tar -C /usr/local/ -xf /tmp/node-v8.11.3-linux-x64.tar \
     && rm /tmp/node-v8.11.3-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v8.11.3-linux-x64/bin \
-    && npm install -g grunt
+    && export PATH=$PATH:/usr/local/node-v8.11.3-linux-x64/bin
 
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf

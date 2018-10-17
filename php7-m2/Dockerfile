@@ -73,7 +73,7 @@ RUN phpize \
     && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
     && rm /tmp/xdebug-2.6.0.tgz
 
-# NODE, GRUNT
+# NODE, NPM
 ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-linux-x64.tar.xz /tmp/node-v8.11.3-linux-x64.tar.xz
 RUN unxz /tmp/node-v8.11.3-linux-x64.tar.xz \
     && tar -C /usr/local/ -xf /tmp/node-v8.11.3-linux-x64.tar \
