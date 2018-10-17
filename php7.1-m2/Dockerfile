@@ -60,6 +60,7 @@ COPY .docker/php7/fpm/php.ini /var/docker/php7/fpm/
 COPY .docker/php7/fpm/www.conf /var/docker/php7/fpm/
 COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY .docker/tools/cli-debug /usr/local/bin/
+COPY .docker/tools/test-prod-deploy /usr/local/bin/
 COPY .docker/etc/env.php /var/docker/etc/
 
 # XDEBUG
@@ -91,7 +92,9 @@ RUN mkdir -p /run/php \
     && usermod -u 1000 www-data \
     && chsh -s /bin/bash www-data \
     && mkdir -p /var/www/current \
-    && chown www-data:www-data -R /var/www
+    && chown www-data:www-data -R /var/www \
+    && chmod +x /usr/local/bin/cli-debug \
+    && chmod +x /usr/local/bin/test-prod-deploy
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
