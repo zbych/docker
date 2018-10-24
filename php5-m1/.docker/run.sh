@@ -18,6 +18,10 @@ echo "" > /var/log/nginx/php5-fpm.log
 echo "" > /var/www/current/var/system.log
 echo "" > /var/www/current/var/exception.log
 
+# Setting up project:
+chmod 664 /var/www/current/app/etc/local.xml
+chown www-data:www-data /var/www/current/app/etc/local.xml
+
 echo "Setting up SSH Keys"
 mkdir -p /root/.ssh
 mkdir -p /var/www/.ssh
