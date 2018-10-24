@@ -39,6 +39,7 @@ RUN chmod 755 /usr/local/bin/magerun
 
 # Create mandatory paths:
 RUN mkdir /var/docker/ \
+    && mkdir /var/docker/etc \
     && mkdir /var/docker/php7 \
     && mkdir /var/docker/php7/fpm \
     && mkdir /var/docker/php7/cli \
@@ -54,6 +55,7 @@ COPY .docker/php7/fpm/php.ini /var/docker/php7/fpm/
 COPY .docker/php7/fpm/www.conf /var/docker/php7/fpm/
 COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY .docker/tools/cli-debug /usr/local/bin/
+COPY .docker/etc/local.xml /var/docker/etc/
 
 # XDEBUG
 ADD https://xdebug.org/files/xdebug-2.5.5.tgz /tmp/xdebug-2.5.5.tgz

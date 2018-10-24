@@ -36,6 +36,7 @@ RUN chmod +rx /usr/local/bin/magerun
 
 # Dockerized files needs to be moved to TMP dir.
 RUN mkdir /var/docker/ \
+    && mkdir /var/docker/etc \
     && mkdir /var/docker/php5 \
     && mkdir /var/docker/php5/cli \
     && mkdir /var/docker/php5/fpm \
@@ -51,6 +52,7 @@ COPY .docker/php5/fpm/php.ini /var/docker/php5/fpm/
 COPY .docker/php5/fpm/www.conf /var/docker/php5/fpm/
 COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY .docker/tools/cli-debug /usr/local/bin/
+COPY .docker/etc/local.xml /var/docker/etc/
 
 # NODE, GRUNT
 workdir /root/

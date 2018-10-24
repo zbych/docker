@@ -4,6 +4,7 @@ composer install
 ./bin/magento cache:disable
 rm var/view_preprocessed/* -rf
 rm var/cache/* -rf
+rm var/log/* -rf
 rm generated/* -rf
 rm pub/static/* -rf
 ./bin/magento deploy:mode:set production -s
@@ -14,10 +15,7 @@ magerun config:set "dev/js/minify_files" 1
 magerun config:set "dev/js/merge_files" 1
 ./bin/magento setup:upgrade
 ./bin/magento setup:di:compile
-./bin/magento setup:static-content:deploy --theme Magento/backend en_US
-./bin/magento setup:static-content:deploy --theme Magento/backend es_MX
-./bin/magento setup:static-content:deploy --theme Mgs/ninth en_US
-./bin/magento setup:static-content:deploy --theme Mgs/ninth es_MX
+./bin/magento setup:static-content:deploy
 ./bin/magento cache:enable
 read -p "Start testing and press any key to continue when finished. " -n1 -s
 echo "Closing Developer mode..."
@@ -31,5 +29,6 @@ magerun config:set "dev/js/merge_files" 0
 ./bin/magento cache:clean
 rm var/view_preprocessed/* -rf
 rm var/cache/* -rf
+rm var/log/* -rf
 rm generated/* -rf
 rm pub/static/* -rf
