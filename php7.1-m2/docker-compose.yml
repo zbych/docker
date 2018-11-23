@@ -12,6 +12,7 @@ services:
     links:
      - redis
      - mysql
+     - mailcatcher
     env_file: .env
     environment:
       - 'PROJECT=<PROJECT>'
@@ -40,6 +41,12 @@ services:
      - 'MYSQL_ROOT_PASSWORD=admin'
      - 'MYSQL_LOG_CONSOLE=true'
      - "MYSQL_ROOT_HOST=%"
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+    - '1080:1080'
+    - '1025:1025'
 
 volumes:
   db:
