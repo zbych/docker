@@ -46,8 +46,8 @@ fi
 
 if ! grep -q "/usr/local/node" /root/.bashrc ;
 then
-    echo "export PATH=\$PATH:/usr/local/node-v8.11.3-linux-x64/bin" > /var/www/.bashrc
-    echo "export PATH=\$PATH:/usr/local/node-v8.11.3-linux-x64/bin" >> /root/.bashrc
+    echo "export PATH=\$PATH:/usr/local/node-v8.11.4-linux-x64/bin" > /var/www/.bashrc
+    echo "export PATH=\$PATH:/usr/local/node-v8.11.4-linux-x64/bin" >> /root/.bashrc
 fi
 
 exec /usr/bin/supervisord

@@ -1,13 +1,7 @@
 FROM debian:jessie
+ARG SHARED_UID
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
-
-ENV FASTCGI_TIMEOUT=1800 \
-    PHP_MEMORY_LIMIT=512M \
-    VHOST_NAME=default.conf \
-    XDEBUG_REMOTE_HOST=127.0.0.1 \
-    XDEBUG_REMOTE_PORT=9000 \
-    TIME_ZONE="Europe/Warsaw"
 
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
@@ -80,7 +74,7 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.2/fpm/php-fpm
 
 RUN mkdir -p /run/php \
     && chmod 777 /var/docker/run.sh \
-    && usermod -u 1000 www-data \
+    && usermod -u $SHARED_UID www-data \
     && chsh -s /bin/bash www-data \
     && mkdir -p /var/www/current \
     && chown www-data:www-data -R /var/www

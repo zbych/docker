@@ -2,32 +2,36 @@ version: '3'
 services:
 
   web:
-    build: .
+    build:
+      context: .
+      args:
+        - SHARED_UID
     ports:
-     - "80:80"
+      - "80:80"
     volumes:
-     - .:/var/www/current/
-     - $HOME/.ssh:/root/.ssh.back/
-     - $HOME/.composer:/root/.composer.back
+      - .:/var/www/current/
+      - ${HOME}/.ssh:/root/.ssh.back/
+      - ${HOME}/.composer:/root/.composer.back
     links:
-     - redis
-     - mysql
+      - redis
+      - mysql
+      - mailcatcher
     env_file: .env
     environment:
-      - 'PROJECT=<PROJECT>'
-      - 'VHOST_NAME=default.conf'
-      - 'FASTCGI_TIMEOUT=1800'
-      - 'PHP_MEMORY_LIMIT=512M'
-      - 'XDEBUG_REMOTE_HOST=172.17.0.1'
-      - 'XDEBUG_REMOTE_PORT=9000'
-      - 'TIME_ZONE="Europe/Warsaw"'
-
+      - PROJECT
+      - VHOST_NAME
+      - FASTCGI_TIMEOUT
+      - PHP_MEMORY_LIMIT
+      - XDEBUG_REMOTE_HOST
+      - XDEBUG_REMOTE_PORT
+      - TIME_ZONE
+      - MAGENTO_KEY
   redis:
     image: redis
     ports:
       - "6379:6379"
     volumes:
-    - cache:/data
+      - cache:/data
 
   mysql:
     image: percona:5.7
@@ -36,9 +40,15 @@ services:
     volumes:
       - db:/var/lib/mysql
     environment:
-     - 'MYSQL_ROOT_PASSWORD=admin'
-     - 'MYSQL_LOG_CONSOLE=true'
-     - "MYSQL_ROOT_HOST=%"
+      - 'MYSQL_ROOT_PASSWORD=admin'
+      - 'MYSQL_LOG_CONSOLE=true'
+      - "MYSQL_ROOT_HOST=%"
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - '1080:1080'
+      - '1025:1025'
 
 volumes:
   db:

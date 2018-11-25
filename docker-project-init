@@ -32,7 +32,9 @@ if [ "$2" != "" ]; then
   echo "Configuration files patched successfully."
 fi
 
-echo "\n# Docker" >> .gitignore
+sed -i -e "s/<SHARED_UID>/$UID/" .env
+
+echo "# Docker" >> .gitignore
 echo "/.docker" >> .gitignore
 echo "/Dockerfile" >> .gitignore
 echo "/docker-compose.yml" >> .gitignore

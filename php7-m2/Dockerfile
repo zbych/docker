@@ -1,13 +1,7 @@
 FROM debian:stretch
+ARG SHARED_UID
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
-
-ENV FASTCGI_TIMEOUT=1800 \
-    PHP_MEMORY_LIMIT=512M \
-    VHOST_NAME=default.conf \
-    XDEBUG_REMOTE_HOST=172.17.0.1 \
-    XDEBUG_REMOTE_PORT=9000 \
-    TIME_ZONE="Europe/Warsaw"
 
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
@@ -75,11 +69,11 @@ RUN phpize \
     && rm /tmp/xdebug-2.6.0.tgz
 
 # NODE, NPM
-ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-linux-x64.tar.xz /tmp/node-v8.11.3-linux-x64.tar.xz
-RUN unxz /tmp/node-v8.11.3-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-v8.11.3-linux-x64.tar \
-    && rm /tmp/node-v8.11.3-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v8.11.3-linux-x64/bin
+ADD https://nodejs.org/dist/v8.11.4/node-v8.11.4-linux-x64.tar.xz /tmp/node-v8.11.4-linux-x64.tar.xz
+RUN unxz /tmp/node-v8.11.4-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-v8.11.4-linux-x64.tar \
+    && rm /tmp/node-v8.11.4-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-v8.11.4-linux-x64/bin
 
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
@@ -94,7 +88,7 @@ RUN go get github.com/mailhog/mhsendmail \
 
 RUN mkdir -p /run/php \
     && chmod 777 /var/docker/run.sh \
-    && usermod -u 1000 www-data \
+    && usermod -u $SHARED_UID www-data \
     && chsh -s /bin/bash www-data \
     && mkdir -p /var/www/current \
     && chown www-data:www-data -R /var/www \
