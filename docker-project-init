@@ -28,17 +28,10 @@ echo "Docker initialized."
 
 if [ "$2" != "" ]; then
   sed -i -e "s/<PROJECT>/$2/g" .env
-  sed -i -e "s/<PROJECT>/$2/g" docker-compose.yml
   echo "Configuration files patched successfully."
 fi
 
 sed -i -e "s/<SHARED_UID>/$UID/" .env
 
-echo "# Docker" >> .gitignore
-echo "/.docker" >> .gitignore
-echo "/Dockerfile" >> .gitignore
-echo "/docker-compose.yml" >> .gitignore
-echo "/.env" >> .gitignore
-
-echo "Type: '$ sudo docker-compose up' to build and start containers"
+echo "Type: 'Adjust .env file and... $ sudo docker-compose up' to build and start containers"
 exit 0
