@@ -1,4 +1,4 @@
-# Docker Images ready for running either Magento and Magento2 #
+# Docker based Magento Fast Environment #
 
 ### Container sets:
  - Magento 1.x with PHP5
@@ -9,9 +9,9 @@
  
 ### Utilizes
  - docker-compose v3
- - Percona
- - Mysql
+ - MySQL (Percona)
  - Redis
+ - Mailcatcher with Mailhog
 
 ### Web Images supports:
  - Nginx/PHP-FPM
@@ -20,6 +20,8 @@
  - Xdebug (even in PHP7)
 
 ### How to use?
+ - Clone your working copy of Magento or Magento2
  - `docker-project-init container_name project` 
- - Adjust .env file and docker-compose.yml if needed
+ - Adjust .env file if needed
  - Run `sudo docker-compose up`
+ - Enjoy
