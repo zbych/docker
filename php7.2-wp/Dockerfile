@@ -72,6 +72,12 @@ RUN unxz /tmp/node-v8.11.4-linux-x64.tar.xz \
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.2/fpm/php-fpm.conf
 
+# Sendmail (MailHog -> MailCatcher)
+RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
+ENV PATH /usr/local/go/bin:$PATH
+RUN go get github.com/mailhog/mhsendmail \
+    && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
+
 RUN mkdir -p /run/php \
     && chmod 777 /var/docker/run.sh \
     && usermod -u $SHARED_UID www-data \

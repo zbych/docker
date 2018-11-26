@@ -65,9 +65,7 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.co
 RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
 ENV PATH /usr/local/go/bin:$PATH
 RUN go get github.com/mailhog/mhsendmail \
-    && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail \
-    && sed -i -e "s#;sendmail_path\s*=\s*#\sendmail_path = \"/usr/bin/mhsendmail --smtp-addr mailcatcher\:1025\"#g" /var/docker/php5/fpm/php.ini \
-    && sed -i -e "s#;sendmail_path\s*=\s*#\sendmail_path = \"/usr/bin/mhsendmail --smtp-addr mailcatcher\:1025\"#g" /var/docker/php5/cli/php.ini
+    && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
 
 RUN chmod 777 /var/docker/run.sh \
     && usermod -u $SHARED_UID www-data \
