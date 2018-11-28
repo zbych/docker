@@ -24,11 +24,11 @@ magerun config:set "dev/js/minify_files" 1
 magerun config:set "dev/js/merge_files" 1
 ./bin/magento setup:upgrade
 ./bin/magento setup:di:compile
-./bin/magento setup:static-content:deploy en_US --theme Magento/backend
-./bin/magento setup:static-content:deploy $lang
+./bin/magento setup:static-content:deploy en_US --theme=Magento/backend
+./bin/magento setup:static-content:deploy --area=frontend $lang
 ./bin/magento cache:enable
 read -p "Start testing and press any key to continue when finished Production Mode. " -n1 -s
-echo "Closing Developer mode..."
+echo "Closing Production Mode..."
 ./bin/magento deploy:mode:set developer
 magerun config:set "dev/static/sign" 0
 magerun config:set "dev/css/minify_files" 0
