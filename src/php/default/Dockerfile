@@ -1,7 +1,7 @@
 #_ENVIRONMENT_
 
 # Create mandatory paths:
-RUN mkdir /var/docker/  \
+RUN mkdir /var/docker/ -p  \
     && mkdir /var/docker/etc  \
     && mkdir /var/docker/nginx
 

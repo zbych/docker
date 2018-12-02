@@ -71,14 +71,15 @@ cp ~/dev/docker/src/app/$2/tools/* .docker/tools
 cp ~/dev/docker/src/app/$2/etc/* .docker/etc
 
 # DOCKERFILE
-cp ~/dev/docker/src/php/default/Dockerfile .
-sed -i -e '/#_ENVIRONMENT_/{' -e "r ~/dev/docker/src/php/$1/Dockerfile" -e 'd' -e '}' Dockerfile
-sed -i -e '/#_APPLICATION_/{' -e "r ~/dev/docker/src/php/$2/Dockerfile" -e 'd' -e '}' Dockerfile
+cat ~/dev/docker/src/php/default/Dockerfile \
+    | awk "/#_ENVIRONMENT_/{system(\"cat ~/dev/docker/src/php/$1/Dockerfile\");next}1" \
+    | awk "/#_APPLICATION_/{system(\"cat ~/dev/docker/src/app/$2/Dockerfile\");next}1" \
+    > Dockerfile
 
 echo "Docker compiled."
 
 if [[ "$2" != "" ]]; then
-  sed -i -e "s/<PROJECT>/$2/g" .env
+  sed -i -e "s/<PROJECT>/$3/g" .env
   echo "Configuration files patched successfully."
 fi
 
