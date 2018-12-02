@@ -1,32 +1,83 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
+if [[ -z "$1" ]]; then
   echo "Arguments: "
   echo "  help"
   echo "  purge"
-  echo "  container_name project"
+  echo "  platform application name"
   exit 0
 fi
 
-if [ $1 = "help" ]; then
-  echo "Available environments:"
-  ls ~/dev/docker | grep php
+if [[ $1 = "help" ]]; then
+  echo "Available Environments:"
+  ls ~/dev/docker/src/php | grep -v "default"
+  echo "Available Applications:"
+  ls ~/dev/docker/src/app | grep -v "default"
   exit 0
 fi
 
-if [ $1 = "purge" ]; then
+if [[ $1 = "purge" ]]; then
   rm -rf .docker docker-compose.yml Dockerfile .env
   exit 0
 fi
 
-cp -r ~/dev/docker/$1/.docker .
-cp -r ~/dev/docker/$1/Dockerfile .
-cp -r ~/dev/docker/$1/docker-compose.yml .
-cp -r ~/dev/docker/$1/.env .
+if [[ ! -d ~/dev/docker/src/php/$1 ]]; then
+  echo "Unknown Environment $1"
+  echo "Available Environments:"
+  ls ~/dev/docker/src/php | grep -v "default"
+  exit 0
+fi
 
-echo "Docker initialized."
+if [[ ! -d ~/dev/docker/src/app/$2 ]]; then
+  echo "Unknown Application $1"
+  echo "Available Applications:"
+  ls ~/dev/docker/src/app | grep -v "default"
+  exit 0
+fi
 
-if [ "$2" != "" ]; then
+
+mkdir .docker
+mkdir .docker/etc
+mkdir .docker/nginx
+mkdir .docker/php
+mkdir .docker/supervisor
+mkdir .docker/tools
+
+# ENV
+cp ~/dev/docker/src/app/$2/.env .
+
+# NGINX
+cp ~/dev/docker/src/nginx/* .docker/nginx
+
+# PHP
+cp ~/dev/docker/src/php/$1/cli .docker/php/cli -r
+cp ~/dev/docker/src/php/$1/fpm .docker/php/fpm -r
+cp ~/dev/docker/src/php/$1/xdebug.ini .docker/php/
+
+# SUPERVISORD
+cat ~/dev/docker/src/php/default/supervisord.conf \
+    ~/dev/docker/src/php/$1/supervisord.conf > .docker/supervisor/supervisord.conf
+
+# ENTRYPOINT
+cat ~/dev/docker/src/app/default/run-prefix.sh \
+    ~/dev/docker/src/app/$2/run.sh > .docker/run.sh \
+    ~/dev/docker/src/app/default/run-postfix.sh
+
+# TOOLS
+cp ~/dev/docker/src/app/default/tools/* .docker/tools
+cp ~/dev/docker/src/app/$2/tools/* .docker/tools
+
+# ETC
+cp ~/dev/docker/src/app/$2/etc/* .docker/etc
+
+# DOCKERFILE
+cp ~/dev/docker/src/php/default/Dockerfile .
+sed -i -e '/#_ENVIRONMENT_/{' -e "r ~/dev/docker/src/php/$1/Dockerfile" -e 'd' -e '}' Dockerfile
+sed -i -e '/#_APPLICATION_/{' -e "r ~/dev/docker/src/php/$2/Dockerfile" -e 'd' -e '}' Dockerfile
+
+echo "Docker compiled."
+
+if [[ "$2" != "" ]]; then
   sed -i -e "s/<PROJECT>/$2/g" .env
   echo "Configuration files patched successfully."
 fi
