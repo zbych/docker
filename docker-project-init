@@ -18,6 +18,7 @@ fi
 
 if [[ $1 = "purge" ]]; then
   rm -rf .docker docker-compose.yml Dockerfile .env
+  echo "Docker Vanished."
   exit 0
 fi
 
@@ -39,15 +40,23 @@ fi
 mkdir .docker
 mkdir .docker/etc
 mkdir .docker/nginx
+mkdir .docker/nginx/sites-available
 mkdir .docker/php
 mkdir .docker/supervisor
 mkdir .docker/tools
 
+# DOCKER-COMPOSE
+cp ~/dev/docker/src/docker-compose.yml .
+
 # ENV
-cp ~/dev/docker/src/app/$2/.env .
+cat ~/dev/docker/src/app/default/.env \
+    ~/dev/docker/src/php/default/.env \
+    ~/dev/docker/src/php/$1/.env \
+    ~/dev/docker/src/app/$2/.env \
+    > .env
 
 # NGINX
-cp ~/dev/docker/src/nginx/* .docker/nginx
+cp ~/dev/docker/src/nginx/* .docker/nginx/ -r
 
 # PHP
 cp ~/dev/docker/src/php/$1/cli .docker/php/cli -r

@@ -2,7 +2,7 @@
 
 dockerize \
     -template=/var/docker/nginx/nginx.conf:/etc/nginx/nginx.conf \
-    -template=/var/docker/nginx/$VHOST_NAME:/etc/nginx/sites-enabled/$PROJECT.conf
+    -template=/var/docker/nginx/sites-available/$VHOST_NAME:/etc/nginx/sites-enabled/$PROJECT.conf
 
 echo "Setting up Composer"
 mkdir -p /root/.composer

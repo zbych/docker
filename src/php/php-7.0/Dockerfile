@@ -17,15 +17,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 # Create mandatory paths:
 RUN mkdir /var/docker/ \
-    && mkdir /var/docker/php7 \
-    && mkdir /var/docker/php7/fpm \
-    && mkdir /var/docker/php7/cli
+    && mkdir /var/docker/php \
+    && mkdir /var/docker/php/fpm \
+    && mkdir /var/docker/php/cli
 
 # Copy templates to Image:
-COPY .docker/php7/xdebug.ini /var/docker/php7/
-COPY .docker/php7/cli/php.ini /var/docker/php7/cli/
-COPY .docker/php7/fpm/php.ini /var/docker/php7/fpm/
-COPY .docker/php7/fpm/www.conf /var/docker/php7/fpm/
+COPY .docker/php/xdebug.ini /var/docker/php/
+COPY .docker/php/cli/* /var/docker/php/cli/
+COPY .docker/php/fpm/* /var/docker/php/fpm/
 
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf

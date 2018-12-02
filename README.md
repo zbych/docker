@@ -20,7 +20,7 @@
 
 ### INSTALLATION
  - Clone repo to ~/dev/
- - Move docker-project-init to ~/bin/
+ - mkdir -p ~/bin && ln -s ~/dev/docker/docker-project-init ~/bin/
 
 ### How to use?
  - Clone your working copy of Magento or Magento2

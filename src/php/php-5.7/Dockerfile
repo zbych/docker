@@ -15,15 +15,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 # Dockerized files needs to be moved to TMP dir.
 RUN mkdir /var/docker/ \
-    && mkdir /var/docker/php5 \
-    && mkdir /var/docker/php5/cli \
-    && mkdir /var/docker/php5/fpm
+    && mkdir /var/docker/php \
+    && mkdir /var/docker/php/cli \
+    && mkdir /var/docker/php/fpm
 
 # Copy environment files;
-COPY .docker/php5/xdebug.ini /var/docker/php5/
-COPY .docker/php5/cli/php.ini /var/docker/php5/cli/
-COPY .docker/php5/fpm/php.ini /var/docker/php5/fpm/
-COPY .docker/php5/fpm/www.conf /var/docker/php5/fpm/
+COPY .docker/php/xdebug.ini /var/docker/php/
+COPY .docker/php/cli/* /var/docker/php/cli/
+COPY .docker/php/fpm/* /var/docker/php/fpm/
 
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf

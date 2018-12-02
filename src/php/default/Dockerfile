@@ -1,14 +1,13 @@
 #_ENVIRONMENT_
 
 # Create mandatory paths:
-RUN mkdir /var/docker/ -p  \
-    && mkdir /var/docker/etc  \
-    && mkdir /var/docker/nginx
+RUN mkdir /var/docker/ -p \
+    && mkdir /var/docker/nginx/sites-available -p
 
 # Copy templates to Image:
 COPY .docker/run.sh /var/docker/
-COPY .docker/nginx/default.conf /var/docker/nginx/
 COPY .docker/nginx/nginx.conf /var/docker/nginx/
+COPY .docker/nginx/sites-available/* /var/docker/nginx/sites-available/
 COPY .docker/supervisor/supervisord.conf /etc/supervisor/conf.d/
 COPY .docker/tools/* /usr/local/bin/
 
