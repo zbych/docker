@@ -19,7 +19,7 @@
           <port><![CDATA[3306]]></port>
           <username><![CDATA[root]]></username>
           <password><![CDATA[admin]]></password>
-          <dbname><![CDATA[{{ .Env.PROJECT }}]]></dbname>
+          <dbname><![CDATA[{{ .Env.DB_NAME }}]]></dbname>
           <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
           <model><![CDATA[mysql4]]></model>
           <type><![CDATA[pdo_mysql]]></type>

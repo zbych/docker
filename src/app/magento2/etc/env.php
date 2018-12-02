@@ -11,7 +11,7 @@ return [
         'connection' => [
             'default' => [
                 'host' => 'mysql',
-                'dbname' => '{{ .Env.PROJECT }}',
+                'dbname' => '{{ .Env.DB_NAME }}',
                 'username' => 'root',
                 'password' => 'admin',
                 'model' => 'mysql4',
