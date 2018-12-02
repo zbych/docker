@@ -1,4 +1,6 @@
-# Configure PHP Env:
+
+# CONFIGURE ENVIRONMENT
+
 dockerize \
     -template=/var/docker/php5/cli/php.ini:/etc/php5/cli/php.ini \
     -template=/var/docker/php5/fpm/php.ini:/etc/php5/fpm/php.ini \

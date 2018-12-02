@@ -1,5 +1,4 @@
-
-# PREFIX FILE
+# Docker Entrypoint
 
 dockerize \
     -template=/var/docker/nginx/nginx.conf:/etc/nginx/nginx.conf \
@@ -27,3 +26,8 @@ then
     echo "export PATH=\$PATH:/usr/local/node-v8.11.4-linux-x64/bin" >> /root/.bashrc
 fi
 
+#_ENVIRONMENT_
+
+#_APPLICATION_
+
+exec /usr/bin/supervisord

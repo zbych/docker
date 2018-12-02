@@ -59,9 +59,10 @@ cat ~/dev/docker/src/php/default/supervisord.conf \
     ~/dev/docker/src/php/$1/supervisord.conf > .docker/supervisor/supervisord.conf
 
 # ENTRYPOINT
-cat ~/dev/docker/src/app/default/run-prefix.sh \
-    ~/dev/docker/src/app/$2/run.sh > .docker/run.sh \
-    ~/dev/docker/src/app/default/run-postfix.sh
+cat ~/dev/docker/src/app/default/run.sh \
+    | awk "/#_ENVIRONMENT_/{system(\"cat ~/dev/docker/src/php/$1/run.sh\");next}1" \
+    | awk "/#_APPLICATION_/{system(\"cat ~/dev/docker/src/app/$2/run.sh\");next}1" \
+    > .docker/run.sh
 
 # TOOLS
 cp ~/dev/docker/src/app/default/tools/* .docker/tools
