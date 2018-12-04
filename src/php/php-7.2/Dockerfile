@@ -1,5 +1,6 @@
 FROM debian:jessie
 ARG SHARED_UID
+ARG NODE_VERSION
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
@@ -45,4 +46,3 @@ RUN phpize \
     && ln -s /etc/php/7.2/mods-available/xdebug.ini /etc/php/7.2/cli/conf.d/20-xdebug.ini \
     && ln -s /etc/php/7.2/mods-available/xdebug.ini /etc/php/7.2/fpm/conf.d/20-xdebug.ini \
     && rm /tmp/xdebug-2.6.0.tgz
-

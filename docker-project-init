@@ -85,7 +85,6 @@ if [[ -d ~/dev/docker/src/app/$2/tools ]]; then
 fi
 
 # ETC
-cp ~/dev/docker/src/app/default/etc/* .docker/etc
 cp ~/dev/docker/src/app/$2/etc/* .docker/etc
 
 # DOCKERFILE
@@ -102,5 +101,5 @@ if [[ "$3" != "" ]]; then
   echo "Configuration files patched successfully."
 fi
 
-echo "Type: 'Adjust .env file and... $ sudo docker-compose up' to build and start containers"
+echo "Adjust .env file and... $ sudo docker-compose up' to build and start containers"
 exit 0

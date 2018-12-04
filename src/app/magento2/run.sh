@@ -12,14 +12,17 @@ echo "" > /var/www/current/var/debug.log
 echo "" > /var/www/current/var/cron.log
 rm -rf /var/www/current/var/report
 
-if [[ ! -f /var/www/current/nginx.conf ]]
-then
- cp /var/www/current/nginx.conf.sample /var/www/current/nginx.conf
+if [[ ! -f /var/www/current/nginx.conf ]]; then
+    cp /var/www/current/nginx.conf.sample /var/www/current/nginx.conf
+fi
+
+if [[ -f /var/docker/tools/local-update.sql ]]; then
+    mkdir -p /var/www/current/var
+    dockerize -template=/var/docker/tools/local-update.sql:/var/www/current/var/local-update.sql /bin/true
 fi
 
 echo "Setting up cron..."
-if ! grep -q "* * * * * www-data" /etc/crontab ;
-then
+if ! grep -q "* * * * * www-data" /etc/crontab ; then
     echo '* * * * * www-data cd /var/www/current/ && /usr/bin/php bin/magento cron:run >> /var/www/current/var/log/cron.log 2>&1' >> /etc/crontab
     echo '* * * * * www-data cd /var/www/current/ && /usr/bin/php bin/magento setup:cron:run >> /var/www/current/var/log/setup.cron.log 2>&1' >> /etc/crontab
 fi

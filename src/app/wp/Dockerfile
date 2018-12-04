@@ -1,3 +1,1 @@
-# <APPLICATION>
-
-# </APPLICATION>
+# no app specific configuration.

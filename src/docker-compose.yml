@@ -6,6 +6,7 @@ services:
       context: .
       args:
         - SHARED_UID
+        - NODE_VERSION
     ports:
       - "80:80"
     volumes:

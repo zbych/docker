@@ -1,5 +1,7 @@
 #_ENVIRONMENT_
 
+ENV DOCKERIZE_VERSION "v0.6.1"
+
 # Create mandatory paths:
 RUN mkdir /var/docker/ -p \
     && mkdir /var/docker/nginx/sites-available -p
@@ -17,20 +19,20 @@ COPY .docker/tools/* /usr/local/bin/
 ADD https://curl.haxx.se/ca/cacert.pem /var/www
 
 # Dockerize
-ADD https://github.com/jwilder/dockerize/releases/download/v0.5.0/dockerize-linux-amd64-v0.5.0.tar.gz /tmp/dockerize.tgz
-RUN tar -C /usr/local/bin -xzf /tmp/dockerize.tgz \
-    && rm /tmp/dockerize.tgz
+ADD https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN tar -C /usr/local/bin -xzf /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # Composer
 ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
 
 # NODE, GRUNT
-ADD https://nodejs.org/dist/v8.11.4/node-v8.11.4-linux-x64.tar.xz /tmp/node-v8.11.4-linux-x64.tar.xz
-RUN unxz /tmp/node-v8.11.4-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-v8.11.4-linux-x64.tar \
-    && rm /tmp/node-v8.11.4-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-v8.11.4-linux-x64/bin \
+ADD https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.xz /tmp/node-$NODE_VERSION-linux-x64.tar.xz
+RUN unxz /tmp/node-$NODE_VERSION-linux-x64.tar.xz \
+    && tar -C /usr/local/ -xf /tmp/node-$NODE_VERSION-linux-x64.tar \
+    && rm /tmp/node-$NODE_VERSION-linux-x64.tar \
+    && export PATH=$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin \
     && npm install -g gulp
 
 # Sendmail (MailHog -> MailCatcher)

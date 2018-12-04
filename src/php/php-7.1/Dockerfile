@@ -1,5 +1,6 @@
 FROM debian:stretch
 ARG SHARED_UID
+ARG NODE_VERSION
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
@@ -18,7 +19,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
     && update-ca-certificates
-
 
 # Create mandatory paths:
 RUN mkdir /var/docker/ \
