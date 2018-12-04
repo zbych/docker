@@ -12,7 +12,7 @@ echo "" > /var/www/current/var/debug.log
 echo "" > /var/www/current/var/cron.log
 rm -rf /var/www/current/var/report
 
-if [[ ! -f /var/www/current/nginx.conf ]]; then
+if [[ -f /var/www/current/nginx.conf ]]; then
     cp /var/www/current/nginx.conf.sample /var/www/current/nginx.conf
 fi
 
