@@ -1,11 +1,9 @@
 # Docker based Magento Fast Environment #
 
-### Container sets:
- - Magento 1.x with PHP5
- - Magento 1.x with PHP7
- - Magento 2.x with PHP7
- - Magento 2.x with PHP7.1
- - WordPress with PHP7.2
+### Available Variations:
+ - Magento 1.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
+ - Magento 2.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
+ - WordPress with PHP5, PHP7.0, PHP7.1, PHP.7.2
  
 ### Utilizes
  - docker-compose v3
@@ -14,14 +12,19 @@
  - Mailcatcher with Mailhog
 
 ### Web Images supports:
- - Nginx/PHP-FPM
+ - Nginx
+ - PHP-FPM
  - Node (npm)
  - Composer
  - Xdebug (even in PHP7)
 
+### INSTALLATION
+ - Clone repo to ~/dev/
+ - mkdir -p ~/bin && ln -s ~/dev/docker/docker-project-init ~/bin/
+
 ### How to use?
  - Clone your working copy of Magento or Magento2
- - `docker-project-init container_name project` 
+ - `docker-project-init platform application name` 
  - Adjust .env file if needed
  - Run `sudo docker-compose up`
  - Enjoy
