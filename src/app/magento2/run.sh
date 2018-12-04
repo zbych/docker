@@ -14,6 +14,8 @@ rm -rf /var/www/current/var/report
 
 if [[ -f /var/www/current/nginx.conf ]]; then
     cp /var/www/current/nginx.conf.sample /var/www/current/nginx.conf
+    chmod 664 /var/www/current/nginx.conf
+    chown www-data:www-data /var/www/current/nginx.conf
 fi
 
 if [[ -f /var/docker/tools/local-update.sql ]]; then
