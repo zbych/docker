@@ -53,7 +53,7 @@ mkdir .docker/tools
 cp ~/dev/docker/src/docker-compose.yml .
 
 # ENV
-cat ~/dev/docker/src/app/default/.env \
+cat ~/dev/docker/src/.env \
     ~/dev/docker/src/php/default/.env \
     ~/dev/docker/src/php/$1/.env \
     ~/dev/docker/src/app/$2/.env \
@@ -88,7 +88,7 @@ fi
 cp ~/dev/docker/src/app/$2/etc/* .docker/etc
 
 # DOCKERFILE
-cat ~/dev/docker/src/php/default/Dockerfile \
+cat ~/dev/docker/src/Dockerfile \
     | awk "/#_ENVIRONMENT_/{system(\"cat ~/dev/docker/src/php/$1/Dockerfile\");next}1" \
     | awk "/#_APPLICATION_/{system(\"cat ~/dev/docker/src/app/$2/Dockerfile\");next}1" \
     > Dockerfile
