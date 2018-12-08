@@ -27,6 +27,7 @@ if [[ ! -f /var/docker/.built ]] ; then
     if [[ -d /var/docker/sql ]] ; then
         mkdir -p /var/www/current/var/sql
         dockerize -template=/var/docker/sql:/var/www/current/var/sql
+        chown www-data:www-data -R /var/www/current/var/sql
     fi
 
     # Configure Node
