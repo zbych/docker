@@ -10,9 +10,9 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get clean && apt-get update \
     && apt-get -y --no-install-recommends install curl xz-utils cron nginx nginx-common nginx-extras inetutils-ping \
       supervisor dnsutils make vim git ssh mysql-client redis-tools php7.0 php7.0-fpm php7.0-dev php7.0-curl php7.0-gd \
-      php7.0-intl php7.0-json php7.0-soap php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt php7.0-opcache \
-      php7.0-readline php7.0-memcached php7.0-zip php7.0-xsl php7.0-mbstring apt-transport-https lsb-release wget \
-      ca-certificates bzip2 \
+      php7.0-intl php7.0-json php7.0-soap php7.0-phpdbg php7.0-redis php7.0-mysql php7.0-cli php7.0-mcrypt \
+      php7.0-opcache  php7.0-readline php7.0-memcached php7.0-zip php7.0-xsl php7.0-mbstring php7.0-bcmath \
+      apt-transport-https lsb-release wget ca-certificates bzip2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*\
     && update-ca-certificates
