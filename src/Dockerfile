@@ -32,8 +32,7 @@ ADD https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.xz /t
 RUN unxz /tmp/node-$NODE_VERSION-linux-x64.tar.xz \
     && tar -C /usr/local/ -xf /tmp/node-$NODE_VERSION-linux-x64.tar \
     && rm /tmp/node-$NODE_VERSION-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin \
-    && npm install -g gulp
+    && export PATH=$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin
 
 # Sendmail (MailHog -> MailCatcher)
 RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
