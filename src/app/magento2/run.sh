@@ -9,7 +9,7 @@ chown www-data:www-data /var/www/current/app/etc/env.php
 find /var/www/current/var -type f -iname "*.log" -delete
 rm -rf /var/www/current/var/report
 
-if [[ -f /var/www/current/nginx.conf ]]; then
+if [[ ! -f /var/www/current/nginx.conf ]]; then
     cp /var/www/current/nginx.conf.sample /var/www/current/nginx.conf
     chmod 664 /var/www/current/nginx.conf
     chown www-data:www-data /var/www/current/nginx.conf
