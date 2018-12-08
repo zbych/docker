@@ -3,8 +3,9 @@
 ENV DOCKERIZE_VERSION "v0.6.1"
 
 # Create mandatory paths:
-RUN mkdir /var/docker/ -p \
-    && mkdir /var/docker/nginx/sites-available -p
+RUN mkdir -p /var/docker/ \
+    && mkdir -p /var/docker/nginx/sites-available \
+    && mkdir /var/docker/sql
 
 # Copy templates to Image:
 COPY .docker/run.sh /var/docker/
@@ -45,7 +46,7 @@ RUN mkdir -p /run/php \
     && usermod -u $SHARED_UID www-data \
     && chsh -s /bin/bash www-data \
     && mkdir -p /var/www/current \
-    && chown www-data:www-data -R /var/www
+    && mv /usr/local/bin/*.sql /var/docker/sql
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log

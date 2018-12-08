@@ -22,19 +22,26 @@ chmod 600 /root/.ssh/id_rsa
 chmod 600 /var/www/.ssh/id_rsa
 chown www-data:www-data -R /var/www/.ssh/
 
-# Configure Node
-if ! grep -q "/usr/local/node" /root/.bashrc ; then
+if [[ ! -f /var/docker/.built ]] ; then
+    # SQL Tools
+    if [[ -d /var/docker/sql ]] ; then
+        mkdir -p /var/www/current/var/sql
+        dockerize -template=/var/docker/sql:/var/www/current/var/sql
+    fi
+
+    # Configure Node
     echo "export PATH=\$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin" > /var/www/.bashrc
     echo "export PATH=\$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin" >> /root/.bashrc
-fi
 
-# Hosts
-if ! grep -q "$PROJECT.local" /etc/hosts ; then
+    # Hosts
     echo "127.0.0.1 $PROJECT.local" >> /etc/hosts
 fi
 
 #_ENVIRONMENT_
 
 #_APPLICATION_
+
+# Set container as built
+date > /var/docker/.built
 
 exec /usr/bin/supervisord
