@@ -6,10 +6,7 @@ chmod 664 /var/www/current/app/etc/env.php
 chown www-data:www-data /var/www/current/app/etc/env.php
 
 # Clean logs
-echo "" > /var/www/current/var/system.log
-echo "" > /var/www/current/var/exception.log
-echo "" > /var/www/current/var/debug.log
-echo "" > /var/www/current/var/cron.log
+find /var/www/current/var -type f -iname "*.log" -delete
 rm -rf /var/www/current/var/report
 
 if [[ -f /var/www/current/nginx.conf ]]; then

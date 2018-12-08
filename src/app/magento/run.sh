@@ -11,9 +11,8 @@ if [[ -f /var/docker/tools/local-update.sql ]]; then
 fi
 
 # Clean logs
-echo "" > /var/www/current/var/system.log
-echo "" > /var/www/current/var/exception.log
-echo "" > /var/www/current/var/cron.log
+find /var/www/current/var -type f -iname "*.log" -delete
+rm -rf /var/www/current/var/report
 
 echo "Setting up cron..."
 if ! grep -q "* * * * * www-data" /etc/crontab ; then
