@@ -98,7 +98,12 @@ echo "Docker compiled."
 sed -i -e "s/<SHARED_UID>/$UID/" .env
 if [[ "$3" != "" ]]; then
   sed -i -e "s/<PROJECT>/$3/g" .env
-  echo "Configuration files patched successfully."
+fi
+
+if ifconfig docker >/dev/null 2>&1 ; then
+    echo "Docker Daemon detected..."
+    DETECTED_DOCKER_IP=$(ifconfig docker | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
+    sed -i -e "s/<DOCKER_IP>/$DETECTED_DOCKER_IP/" .env
 fi
 
 echo "Adjust .env file and... $ sudo docker-compose up' to build and start containers"
