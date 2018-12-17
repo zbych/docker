@@ -58,3 +58,9 @@ UPDATE sales_invoice_grid
 UPDATE sales_shipment_grid
   SET customer_email = CONCAT(REPLACE(customer_email, '@', '-'), '@example.com')
   WHERE customer_email NOT IN ('zbigniew.labacz@gmail.com', 'zbigniew.labacz@hatimeria.pl');
+
+TRUNCATE TABLE `customer_log`;
+TRUNCATE TABLE `customer_visitor`;
+TRUNCATE TABLE `cron_schedule`;
+TRUNCATE TABLE `persistent_session`;
+TRUNCATE TABLE `session`;

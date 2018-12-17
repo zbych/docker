@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
 if [[ -z "$1" ]]; then
   echo "Arguments: "
   echo "  help"
@@ -10,9 +12,9 @@ fi
 
 if [[ $1 = "help" ]]; then
   echo "Available Environments:"
-  ls ~/dev/docker/src/php | grep -v "default"
+  ls $DIR/docker/src/php | grep -v "default"
   echo "Available Applications:"
-  ls ~/dev/docker/src/app | grep -v "default"
+  ls $DIR/docker/src/app | grep -v "default"
   exit 0
 fi
 
@@ -27,17 +29,17 @@ if [ -z "$1" ] || [ -z "$2" ] ; then
   exit 0;
 fi
 
-if [[ ! -d ~/dev/docker/src/php/$1 ]]; then
+if [[ ! -d $DIR/docker/src/php/$1 ]]; then
   echo "Unknown Environment $1"
   echo "Available Environments:"
-  ls ~/dev/docker/src/php | grep -v "default"
+  ls $DIR/docker/src/php | grep -v "default"
   exit 0
 fi
 
-if [[ ! -d ~/dev/docker/src/app/$2 ]]; then
+if [[ ! -d $DIR/docker/src/app/$2 ]]; then
   echo "Unknown Application $1"
   echo "Available Applications:"
-  ls ~/dev/docker/src/app | grep -v "default"
+  ls $DIR/docker/src/app | grep -v "default"
   exit 0
 fi
 
@@ -50,47 +52,47 @@ mkdir .docker/supervisor
 mkdir .docker/tools
 
 # DOCKER-COMPOSE
-cp ~/dev/docker/src/docker-compose.yml .
+cp $DIR/docker/src/docker-compose.yml .
 
 # ENV
-cat ~/dev/docker/src/.env \
-    ~/dev/docker/src/php/default/.env \
-    ~/dev/docker/src/php/$1/.env \
-    ~/dev/docker/src/app/$2/.env \
+cat $DIR/docker/src/.env \
+    $DIR/docker/src/php/default/.env \
+    $DIR/docker/src/php/$1/.env \
+    $DIR/docker/src/app/$2/.env \
     > .env
 
 # NGINX
-cp ~/dev/docker/src/nginx/* .docker/nginx/ -r
+cp $DIR/docker/src/nginx/* .docker/nginx/ -r
 
 # PHP
-cp ~/dev/docker/src/php/$1/cli .docker/php/cli -r
-cp ~/dev/docker/src/php/$1/fpm .docker/php/fpm -r
-cp ~/dev/docker/src/php/$1/xdebug.ini .docker/php/
+cp $DIR/docker/src/php/$1/cli .docker/php/cli -r
+cp $DIR/docker/src/php/$1/fpm .docker/php/fpm -r
+cp $DIR/docker/src/php/$1/xdebug.ini .docker/php/
 
 # SUPERVISORD
-cat ~/dev/docker/src/php/default/supervisord.conf \
-    ~/dev/docker/src/php/$1/supervisord.conf \
+cat $DIR/docker/src/php/default/supervisord.conf \
+    $DIR/docker/src/php/$1/supervisord.conf \
     > .docker/supervisor/supervisord.conf
 
 # ENTRYPOINT
-cat ~/dev/docker/src/app/default/run.sh \
-    | awk "/#_ENVIRONMENT_/{system(\"cat ~/dev/docker/src/php/$1/run.sh\");next}1" \
-    | awk "/#_APPLICATION_/{system(\"cat ~/dev/docker/src/app/$2/run.sh\");next}1" \
+cat $DIR/docker/src/app/default/run.sh \
+    | awk "/#_ENVIRONMENT_/{system(\"cat $DIR/docker/src/php/$1/run.sh\");next}1" \
+    | awk "/#_APPLICATION_/{system(\"cat $DIR/docker/src/app/$2/run.sh\");next}1" \
     > .docker/run.sh
 
 # TOOLS
-cp ~/dev/docker/src/app/default/tools/* .docker/tools
-if [[ -d ~/dev/docker/src/app/$2/tools ]]; then
-    cp ~/dev/docker/src/app/$2/tools/* .docker/tools
+cp $DIR/docker/src/app/default/tools/* .docker/tools
+if [[ -d $DIR/docker/src/app/$2/tools ]]; then
+    cp $DIR/docker/src/app/$2/tools/* .docker/tools
 fi
 
 # ETC
-cp ~/dev/docker/src/app/$2/etc/* .docker/etc
+cp $DIR/docker/src/app/$2/etc/* .docker/etc
 
 # DOCKERFILE
-cat ~/dev/docker/src/Dockerfile \
-    | awk "/#_ENVIRONMENT_/{system(\"cat ~/dev/docker/src/php/$1/Dockerfile\");next}1" \
-    | awk "/#_APPLICATION_/{system(\"cat ~/dev/docker/src/app/$2/Dockerfile\");next}1" \
+cat $DIR/docker/src/Dockerfile \
+    | awk "/#_ENVIRONMENT_/{system(\"cat $DIR/docker/src/php/$1/Dockerfile\");next}1" \
+    | awk "/#_APPLICATION_/{system(\"cat $DIR/docker/src/app/$2/Dockerfile\");next}1" \
     > Dockerfile
 
 echo "Docker compiled."
