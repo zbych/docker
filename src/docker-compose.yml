@@ -27,6 +27,14 @@ services:
       - XDEBUG_REMOTE_PORT
       - TIME_ZONE
       - MAGENTO_KEY
+      - APP_USER_NAME
+      - APP_USER_PASSWD
+      - APP_USER_EMAIL
+      - APP_USER_FIRST_NAME
+      - APP_USER_LAST_NAME
+      - APP_CURRENCY
+      - APP_LOCALE
+      - APP_TIMEZONE
 
   redis:
     image: redis

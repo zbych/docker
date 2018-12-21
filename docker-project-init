@@ -59,6 +59,7 @@ cat $DIR/docker/src/.env \
     $DIR/docker/src/php/default/.env \
     $DIR/docker/src/php/$1/.env \
     $DIR/docker/src/app/$2/.env \
+    $DIR/docker/src/app/default/.env \
     > .env
 
 # NGINX

@@ -33,16 +33,16 @@ DELETE FROM core_config_data
 
 UPDATE customer_entity
   SET email = CONCAT(REPLACE(email, '@', '-'), '@example.com')
-  WHERE email NOT IN ('zbigniew.labacz@gmail.com', 'zbigniew.labacz@hatimeria.pl');
+  WHERE email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
 
 UPDATE newsletter_subscriber
   SET subscriber_email = CONCAT(REPLACE(subscriber_email, '@', '-'), '@example.com')
-  WHERE subscriber_email NOT IN ('zbigniew.labacz@gmail.com', 'zbigniew.labacz@hatimeria.pl');
+  WHERE subscriber_email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
 
 UPDATE sales_order
   SET customer_email = CONCAT(REPLACE(customer_email, '@', '-'), '@example.com')
-  WHERE customer_email NOT IN ('zbigniew.labacz@gmail.com', 'zbigniew.labacz@hatimeria.pl');
+  WHERE customer_email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
 
 UPDATE sales_order_grid
   SET customer_email = CONCAT(REPLACE(customer_email, '@', '-'), '@example.com')
-  WHERE customer_email NOT IN ('zbigniew.labacz@gmail.com', 'zbigniew.labacz@hatimeria.pl');
+  WHERE customer_email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
