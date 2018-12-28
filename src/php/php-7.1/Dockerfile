@@ -42,7 +42,7 @@ RUN phpize \
     && chmod u+x configure \
     && ./configure \
     && make \
-    && cp /var/local/xdebug-2.6.0/modules/xdebug.so /usr/lib/php/20151012 \
+    && cp /var/local/xdebug-2.6.0/modules/xdebug.so /usr/lib/php/20170718 \
     && touch /etc/php/7.1/mods-available/xdebug.ini \
     && ln -s /etc/php/7.1/mods-available/xdebug.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini \
     && ln -s /etc/php/7.1/mods-available/xdebug.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
