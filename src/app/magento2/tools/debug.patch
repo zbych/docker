@@ -1,13 +1,17 @@
 diff --git a/pub/debug.php b/pub/debug.php
 new file mode 100644
-index 0000000..d2e4030
+index 0000000..edc6db3
 --- /dev/null
 +++ b/pub/debug.php
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,53 @@
 +<?php
 +/**
 + * Debug
 + */
++
++if ($_SERVER['REQUEST_METHOD'] !== 'GET' || isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
++    exit;
++}
 +
 +if (!isset($queryMap)) {
 +    die('No debug detected');
@@ -19,7 +23,8 @@ index 0000000..d2e4030
 +            <td style="width: 75px;"><pre><a href="javascript:showTrace('trace-<?= $item['hash'] ?>')">Trace</a></pre></td>
 +            <td style="width: 50px;"><pre><?= $item['count'] ?></pre></td>
 +            <td style="width: 100px;"><pre><?= round($item['time'] * 1000, 3) ?></pre></td>
-+            <td><textarea><?= $item['query'] ?></textarea></small></pre></td>
++            <td style="width: 400px;"><textarea class="dbg-textarea-view" style="font-size:80%"><?= implode("\n", $item['blocks']) ?></textarea></td>
++            <td><textarea><?= $item['query'] ?></textarea></td>
 +        </tr>
 +        <tr style="display:none;" id="trace-<?= $item['hash'] ?>">
 +            <td colspan="4">
@@ -37,7 +42,8 @@ index 0000000..d2e4030
 +    #dbg-table td { padding: 5px 5px 20px 5px; margin: 0; border-bottom: 1px solid #eee; }
 +    #dbg-table td pre { border: 0 none; border-radius: 0; background: transparent; padding: 0; }
 +    #dbg-table td li { padding: 0; margin: 0; }
-+    #dbg-table textarea { display: block; border:0; padding: 2px; width:100%; font-family: monospace; font-size:90%; }
++    #dbg-table textarea { display: block; border:0; padding: 2px; width:100%; font-family: monospace; font-size:90%;}
++    #dbg-table .dbg-textarea-view { white-space:pre; overflow-wrap:normal; }
 +</style>
 +<script>
 +    function showTrace(hash) {
@@ -53,7 +59,7 @@ index 0000000..d2e4030
 +</script>
 \ No newline at end of file
 diff --git a/vendor/magento/zendframework1/library/Zend/Db/Adapter/Abstract.php b/vendor/magento/zendframework1/library/Zend/Db/Adapter/Abstract.php
-index 0fb6585..04f871f 100644
+index 0fb6585..3ea3add 100644
 --- a/vendor/magento/zendframework1/library/Zend/Db/Adapter/Abstract.php
 +++ b/vendor/magento/zendframework1/library/Zend/Db/Adapter/Abstract.php
 @@ -475,10 +475,15 @@ abstract class Zend_Db_Adapter_Abstract
@@ -72,11 +78,15 @@ index 0fb6585..04f871f 100644
          // return the results embedded in the prepared statement object
          $stmt->setFetchMode($this->_fetchMode);
          return $stmt;
-@@ -1277,4 +1282,30 @@ abstract class Zend_Db_Adapter_Abstract
+@@ -1277,4 +1282,38 @@ abstract class Zend_Db_Adapter_Abstract
       * @return string
       */
      abstract public function getServerVersion();
 +
++    /**
++     * Debug (inserted by patch)
++     * @nocommit
++     */
 +    protected function debug($sql, $time)
 +    {
 +        global $queryMap;
@@ -89,14 +99,18 @@ index 0fb6585..04f871f 100644
 +
 +        if (!isset($queryMap[$hash])) {
 +            $backtrace = array_map(function($item) {
-+                return sprintf('%s::%s', (isset($item['class']) ? $item['class'] : ''), $item['function']);
++                return sprintf('%s::%s', (isset($item['class']) ? $item['class'] : $item['file']), $item['function']);
++            }, debug_backtrace());
++            $blocks = array_map(function($item) {
++                return ($item['function'] == 'fetchView') ? $item['class']: null ;
 +            }, debug_backtrace());
 +            $queryMap[$hash] = [
 +                'hash' => $hash,
 +                'count' => 0,
 +                'time' => $time,
 +                'query' => $sql,
-+                'trace' => $backtrace
++                'trace' => $backtrace,
++                'blocks' => array_filter($blocks)
 +            ];
 +        }
 +
