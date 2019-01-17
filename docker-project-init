@@ -103,9 +103,9 @@ if [[ "$3" != "" ]]; then
   sed -i -e "s/<PROJECT>/$3/g" .env
 fi
 
-if ifconfig docker >/dev/null 2>&1 ; then
+if ifconfig docker0 >/dev/null 2>&1 ; then
     echo "Docker Daemon detected..."
-    DETECTED_DOCKER_IP=$(ifconfig docker | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
+    DETECTED_DOCKER_IP=$(ifconfig docker0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
     sed -i -e "s/<DOCKER_IP>/$DETECTED_DOCKER_IP/g" .env
 fi
 
