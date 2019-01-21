@@ -10,7 +10,7 @@ switch_off_flag () {
     magerun config:set $1 0 > /dev/null
 }
 
-echo "Closing Developer mode..."
+echo "Closing Production mode, reverting Developer mode..."
 ./bin/magento deploy:mode:set developer
 switch_off_flag "dev/static/sign"
 switch_off_flag "dev/css/minify_files"
