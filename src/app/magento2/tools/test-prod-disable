@@ -1,0 +1,26 @@
+#!/bin/bash
+
+switch_on_flag () {
+    echo "Switching on: $1"
+    magerun config:set $1 1 > /dev/null
+}
+
+switch_off_flag () {
+    echo "Switching off: $1"
+    magerun config:set $1 0 > /dev/null
+}
+
+echo "Closing Developer mode..."
+./bin/magento deploy:mode:set developer
+switch_off_flag "dev/static/sign"
+switch_off_flag "dev/css/minify_files"
+switch_off_flag "dev/css/merge_css_files"
+switch_off_flag "dev/js/minify_files"
+switch_off_flag "dev/js/merge_files"
+./bin/magento cache:disable full_page
+./bin/magento cache:clean
+rm var/view_preprocessed/* -rf
+rm var/cache/* -rf
+rm var/log/* -rf
+rm generated/* -rf
+rm pub/static/* -rf
