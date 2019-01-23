@@ -104,7 +104,7 @@ if [[ "$3" != "" ]]; then
 fi
 
 if ifconfig docker0 >/dev/null 2>&1 ; then
-    echo "Docker Daemon detected..."
+    echo "Docker Daemon detected."
     DETECTED_DOCKER_IP=$(ifconfig docker0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
     sed -i -e "s/<DOCKER_IP>/$DETECTED_DOCKER_IP/g" .env
 fi
@@ -113,6 +113,12 @@ if git config --global --list >/dev/null 2>&1 ; then
     echo "Git Detected."
     DETECTED_USER_EMAIL=$(git config --global user.email)
     sed -i -e "s/admin@example.com/$DETECTED_USER_EMAIL/g" .env
+fi
+
+if [[ -f /etc/timezone ]] ; then
+    echo "Timezone Detected."
+    DETECTED_TIMEZONE=$(cat /etc/timezone)
+    sed -i -e "s#<TIME_ZONE>#$DETECTED_TIMEZONE#g" .env
 fi
 
 echo "Adjust .env file and... $ sudo docker-compose up' to build and start containers"
