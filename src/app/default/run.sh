@@ -6,19 +6,16 @@ dockerize \
     -template=/var/docker/nginx/nginx.conf:/etc/nginx/nginx.conf \
     -template=/var/docker/nginx/sites-available/$VHOST_NAME:/etc/nginx/sites-enabled/$PROJECT.conf
 
-echo "Setting up Composer"
-mkdir -p /root/.composer
+echo "Setting up SSH and Composer keys"
 mkdir -p /var/www/.composer
-cp /root/.composer.back/*.json /root/.composer
-cp /root/.composer.back/*.json /var/www/.composer
-
-echo "Setting up SSH Keys"
-mkdir -p /root/.ssh
 mkdir -p /var/www/.ssh
-cp /root/.ssh.back/* /root/.ssh/
-cp /root/.ssh.back/* /var/www/.ssh/
-chmod 600 /root/.ssh/id_rsa
+cp /root/.composer/*.json /var/www/.composer
+cp /root/.ssh/* /var/www/.ssh/
 chmod 600 /var/www/.ssh/id_rsa
+
+echo "Setting Privileges"
+chown www-data:www-data -R /var/www
+ls -a /var/www | egrep '^\.[a-z]' | xargs chown -R www-data:www-data
 
 if [[ ! -f /var/docker/.built ]] ; then
     # SQL Tools
@@ -39,10 +36,6 @@ fi
 #_ENVIRONMENT_
 
 #_APPLICATION_
-
-echo "Setting Privileges"
-chown www-data:www-data -R /var/www
-ls -a /var/www | egrep '^\.[a-z]' | xargs chown -R www-data:www-data
 
 # Set container as built
 date > /var/docker/.built

@@ -11,8 +11,8 @@ services:
       - "80:80"
     volumes:
       - .:/var/www/current/
-      - ${HOME}/.ssh:/root/.ssh.back/
-      - ${HOME}/.composer:/root/.composer.back
+      - ${HOME}/.ssh:/root/.ssh
+      - ${HOME}/.composer:/root/.composer
     links:
       - redis
       - mysql
