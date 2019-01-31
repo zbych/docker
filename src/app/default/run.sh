@@ -6,18 +6,16 @@ dockerize \
     -template=/var/docker/nginx/nginx.conf:/etc/nginx/nginx.conf \
     -template=/var/docker/nginx/sites-available/$VHOST_NAME:/etc/nginx/sites-enabled/$PROJECT.conf
 
-echo "Setting up SSH and Composer keys"
-mkdir -p /var/www/.composer
-mkdir -p /var/www/.ssh
-cp /root/.composer/*.json /var/www/.composer
-cp /root/.ssh/* /var/www/.ssh/
-chmod 600 /var/www/.ssh/id_rsa
-
-echo "Setting Privileges"
-chown www-data:www-data -R /var/www
-ls -a /var/www | egrep '^\.[a-z]' | xargs chown -R www-data:www-data
-
 if [[ ! -f /var/docker/.built ]] ; then
+
+    # User Keys
+    echo "Setting up SSH and Composer keys"
+    mkdir -p /var/www/.composer
+    mkdir -p /var/www/.ssh
+    cp /root/.composer/*.json /var/www/.composer
+    cp /root/.ssh/* /var/www/.ssh/
+    chmod 600 /var/www/.ssh/id_rsa
+
     # SQL Tools
     if [[ -d /var/docker/sql ]] ; then
         mkdir -p /var/www/current/var/sql
@@ -31,6 +29,11 @@ if [[ ! -f /var/docker/.built ]] ; then
 
     # Hosts
     echo "127.0.0.1 $PROJECT.local" >> /etc/hosts
+
+    # Privileges
+    echo "Setting Privileges"
+    chown www-data:www-data -R /var/www
+    ls -a /var/www | egrep '^\.[a-z]' | xargs chown -R www-data:www-data
 fi
 
 #_ENVIRONMENT_
