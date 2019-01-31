@@ -34,6 +34,9 @@ COPY .docker/php/fpm/* /var/docker/php/fpm/
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.2/fpm/php-fpm.conf
 
+# Increase Opcache Limit:
+RUN echo "opcache.memory_consumption=256" >> /etc/php/7.2/mods-available/opcache.ini
+
 # XDEBUG
 ADD https://xdebug.org/files/xdebug-2.6.0.tgz /tmp/xdebug-2.6.0.tgz
 RUN tar -C /var/local/ -xzf /tmp/xdebug-2.6.0.tgz

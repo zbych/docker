@@ -31,6 +31,9 @@ COPY .docker/php/fpm/* /var/docker/php/fpm/
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
 
+# Increase Opcache Limit:
+RUN echo "opcache.memory_consumption=256" >> /etc/php/7.0/mods-available/opcache.ini
+
 # Curl
 ADD https://curl.haxx.se/ca/cacert.pem /var/www
 
