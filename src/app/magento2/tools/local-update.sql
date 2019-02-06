@@ -47,6 +47,10 @@ UPDATE sales_order
   SET customer_email = CONCAT(REPLACE(customer_email, '@', '-'), '@example.com')
   WHERE customer_email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
 
+UPDATE sales_order_address
+  SET email = CONCAT(REPLACE(email, '@', '-'), '@example.com')
+  WHERE email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
+
 UPDATE sales_order_grid
   SET customer_email = CONCAT(REPLACE(customer_email, '@', '-'), '@example.com')
   WHERE customer_email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
@@ -58,6 +62,14 @@ UPDATE sales_invoice_grid
 UPDATE sales_shipment_grid
   SET customer_email = CONCAT(REPLACE(customer_email, '@', '-'), '@example.com')
   WHERE customer_email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
+
+UPDATE quote
+  SET customer_email = CONCAT(REPLACE(customer_email, '@', '-'), '@example.com')
+  WHERE customer_email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
+
+UPDATE quote_address
+  SET email = CONCAT(REPLACE(email, '@', '-'), '@example.com')
+  WHERE email NOT IN ('{{ .Env.APP_USER_EMAIL }}');
 
 TRUNCATE TABLE `customer_log`;
 TRUNCATE TABLE `customer_visitor`;
