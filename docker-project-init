@@ -1,6 +1,8 @@
 #!/bin/bash
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_PATH="/var/www/httpd"
+APP_PATH=$ROOT_PATH
 
 if [[ -z "$1" ]]; then
   echo "Arguments: "
@@ -43,6 +45,10 @@ if [[ ! -d $DIR/docker/src/app/$2 ]]; then
   exit 0
 fi
 
+if [[ -n "$4" ]] ; then
+    APP_PATH="$APP_PATH/$4"
+fi
+
 mkdir .docker
 mkdir .docker/etc
 mkdir .docker/nginx
@@ -53,6 +59,7 @@ mkdir .docker/tools
 
 # DOCKER-COMPOSE
 cp $DIR/docker/src/docker-compose.yml .
+sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g" docker-compose.yml
 
 # ENV
 cat $DIR/docker/src/.env \
@@ -120,6 +127,10 @@ if [[ -f /etc/timezone ]] ; then
     DETECTED_TIMEZONE=$(cat /etc/timezone)
     sed -i -e "s#<TIME_ZONE>#$DETECTED_TIMEZONE#g" .env
 fi
+
+echo "Configuring Paths..."
+find . -type f | xargs sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g"
+find . -type f | xargs sed -i -e "s#%APP_PATH%#$APP_PATH#g"
 
 echo "Adjust .env file and... $ sudo docker-compose up' to build and start containers"
 exit 0

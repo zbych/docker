@@ -10,7 +10,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - .:/var/www/current/
+      - .:%ROOT_PATH%
       - ${HOME}/.ssh:/root/.ssh
       - ${HOME}/.composer:/root/.composer
     links:

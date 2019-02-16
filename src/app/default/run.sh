@@ -18,9 +18,9 @@ if [[ ! -f /var/docker/.built ]] ; then
 
     # SQL Tools
     if [[ -d /var/docker/sql ]] ; then
-        mkdir -p /var/www/current/var/sql
-        dockerize -template=/var/docker/sql:/var/www/current/var/sql
-        chown www-data:www-data -R /var/www/current/var/sql
+        mkdir -p %APP_PATH%/var/sql
+        dockerize -template=/var/docker/sql:%APP_PATH%/var/sql
+        chown www-data:www-data -R %APP_PATH%/var/sql
     fi
 
     # Configure Node

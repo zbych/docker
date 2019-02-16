@@ -45,12 +45,12 @@ RUN mkdir -p /run/php \
     && chmod 777 /var/docker/run.sh \
     && usermod -u $SHARED_UID www-data \
     && chsh -s /bin/bash www-data \
-    && mkdir -p /var/www/current \
+    && mkdir -p %ROOT_PATH% \
     && mv /usr/local/bin/*.sql /var/docker/sql
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 80 80
-WORKDIR /var/www/current
+WORKDIR %ROOT_PATH%
 CMD ["/var/docker/run.sh"]
