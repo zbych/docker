@@ -24,8 +24,7 @@ if [[ ! -f /var/docker/.built ]] ; then
     fi
 
     # Configure Node
-    echo "export PATH=\$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin" > /var/www/.bashrc
-    echo "export PATH=\$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin" >> /root/.bashrc
+    echo "export PATH=\$PATH:/var/www/bin:/var/www/bin/node-$NODE_VERSION-linux-x64/bin" > /var/www/.bashrc
 
     # Hosts
     echo "127.0.0.1 $PROJECT.local" >> /etc/hosts

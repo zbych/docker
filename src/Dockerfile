@@ -5,6 +5,7 @@ ENV DOCKERIZE_VERSION "v0.6.1"
 # Create mandatory paths:
 RUN mkdir -p /var/docker/ \
     && mkdir -p /var/docker/nginx/sites-available \
+    && mkdir -p /var/www/bin \
     && mkdir /var/docker/sql
 
 # Copy templates to Image:
@@ -31,9 +32,9 @@ RUN chmod 755 /usr/local/bin/composer
 # NODE, GRUNT
 ADD https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.xz /tmp/node-$NODE_VERSION-linux-x64.tar.xz
 RUN unxz /tmp/node-$NODE_VERSION-linux-x64.tar.xz \
-    && tar -C /usr/local/ -xf /tmp/node-$NODE_VERSION-linux-x64.tar \
+    && tar -C /var/www/bin -xf /tmp/node-$NODE_VERSION-linux-x64.tar \
     && rm /tmp/node-$NODE_VERSION-linux-x64.tar \
-    && export PATH=$PATH:/usr/local/node-$NODE_VERSION-linux-x64/bin
+    && export PATH=$PATH:/var/www/bin/node-$NODE_VERSION-linux-x64/bin
 
 # Sendmail (MailHog -> MailCatcher)
 RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
