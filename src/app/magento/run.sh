@@ -1,17 +1,17 @@
 
 # CONFIGURE APPLICATION
 
-dockerize -template=/var/docker/etc/local.xml:/var/www/current/app/etc/local.xml
-chmod 664 /var/www/current/app/etc/local.xml
-chown www-data:www-data /var/www/current/app/etc/local.xml
+dockerize -template=/var/docker/etc/local.xml:%APP_PATH%/app/etc/local.xml
+chmod 664 %APP_PATH%/app/etc/local.xml
+chown www-data:www-data %APP_PATH%/app/etc/local.xml
 
 # Clean logs
-find /var/www/current/var -type f -iname "*.log" -delete
-rm -rf /var/www/current/var/report
+find %APP_PATH%/var -type f -iname "*.log" -delete
+rm -rf %APP_PATH%/var/report
 
 echo "Setting up cron..."
 if [[ ! -f /var/docker/.built ]] ; then
-    echo '* * * * * www-data cd /var/www/current/ && /usr/bin/php cron.php >> /var/www/current/var/log/cron.log 2>&1' >> /etc/crontab
+    echo '* * * * * www-data cd %APP_PATH% && /usr/bin/php cron.php >> %APP_PATH%/var/log/cron.log 2>&1' >> /etc/crontab
 fi
 
 /usr/sbin/cron
