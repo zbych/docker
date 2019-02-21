@@ -59,7 +59,6 @@ mkdir .docker/tools
 
 # DOCKER-COMPOSE
 cp $DIR/docker/src/docker-compose.yml .
-sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g" docker-compose.yml
 
 # ENV
 cat $DIR/docker/src/.env \
@@ -129,8 +128,8 @@ if [[ -f /etc/timezone ]] ; then
 fi
 
 echo "Configuring Paths..."
-find . -type f | xargs sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g"
-find . -type f | xargs sed -i -e "s#%APP_PATH%#$APP_PATH#g"
+find .docker Dockerfile docker-compose.yml -type f | xargs sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g"
+find .docker Dockerfile docker-compose.yml -type f | xargs sed -i -e "s#%APP_PATH%#$APP_PATH#g"
 
 echo "Adjust .env file and... $ sudo docker-compose up' to build and start containers"
 exit 0
