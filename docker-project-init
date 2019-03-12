@@ -8,7 +8,7 @@ if [[ -z "$1" ]]; then
   echo "Arguments: "
   echo "  help"
   echo "  purge"
-  echo "  platform application name"
+  echo "  platform application [[name] [path]]"
   exit 0
 fi
 
@@ -103,6 +103,7 @@ cat $DIR/docker/src/Dockerfile \
     > Dockerfile
 
 echo "Docker compiled."
+echo "Configuring..."
 
 sed -i -e "s/<SHARED_UID>/$UID/" .env
 if [[ "$3" != "" ]]; then
@@ -126,6 +127,10 @@ if [[ -f /etc/timezone ]] ; then
     DETECTED_TIMEZONE=$(cat /etc/timezone)
     sed -i -e "s#<TIME_ZONE>#$DETECTED_TIMEZONE#g" .env
 fi
+
+DETECTED_CPU_COUNT=$(egrep "processor\s:\s[0-9]+" /proc/cpuinfo | wc -l)
+sed -i -e "s#<CPU_COUNT>#$DETECTED_CPU_COUNT#g" .env
+echo "CPU Count Detected."
 
 echo "Configuring Paths..."
 find .docker Dockerfile docker-compose.yml -type f | xargs sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g"
