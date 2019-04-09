@@ -29,6 +29,12 @@ if [[ ! -f /var/docker/.built ]] ; then
     # Hosts
     echo "127.0.0.1 $PROJECT.local" >> /etc/hosts
 
+    # SSL
+    mkdir /etc/nginx/ssl \
+        && openssl req -keyout /etc/nginx/ssl/$PROJECT.crt -out /etc/nginx/ssl/$PROJECT.key \
+        -x509 -newkey rsa:4096 -nodes -sha256 -days 365 \
+        -subj "/C=US/ST=Unknown/L=Unknown/O=$PROJECT/OU=Org/CN=$PROJECT.local"
+
     # Privileges
     echo "Setting Privileges"
     chown www-data:www-data -R /var/www
