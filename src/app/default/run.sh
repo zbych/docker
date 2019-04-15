@@ -26,9 +26,6 @@ if [[ ! -f /var/docker/.built ]] ; then
     # Configure Node
     echo "export PATH=\$PATH:/var/www/bin:/var/www/bin/node-$NODE_VERSION-linux-x64/bin" > /var/www/.bashrc
 
-    # Hosts
-    echo "127.0.0.1 $PROJECT.local" >> /etc/hosts
-
     # SSL
     mkdir /etc/nginx/ssl -p \
         && openssl req -x509 -newkey rsa:4096 -keyout /etc/nginx/ssl/$PROJECT.key -out /etc/nginx/ssl/$PROJECT.crt -nodes -days 365 \
@@ -41,6 +38,9 @@ if [[ ! -f /var/docker/.built ]] ; then
 fi
 
 #_ENVIRONMENT_
+
+# Hosts
+echo "127.0.0.1 $PROJECT.local" >> /etc/hosts
 
 #_APPLICATION_
 
