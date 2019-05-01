@@ -1,14 +1,14 @@
 #!/bin/bash
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-ROOT_PATH="/var/www/httpd"
+ROOT_PATH="/var/www/htdocs"
 APP_PATH=$ROOT_PATH
 
 if [[ -z "$1" ]]; then
   echo "Arguments: "
   echo "  help"
   echo "  purge"
-  echo "  platform application [name] [app_relative_path]"
+  echo "  platform application [[name] [path]]"
   exit 0
 fi
 
@@ -59,7 +59,6 @@ mkdir .docker/tools
 
 # DOCKER-COMPOSE
 cp $DIR/docker/src/docker-compose.yml .
-sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g" docker-compose.yml
 
 # ENV
 cat $DIR/docker/src/.env \
@@ -104,6 +103,7 @@ cat $DIR/docker/src/Dockerfile \
     > Dockerfile
 
 echo "Docker compiled."
+echo "Configuring..."
 
 sed -i -e "s/<SHARED_UID>/$UID/" .env
 if [[ "$3" != "" ]]; then
@@ -128,9 +128,13 @@ if [[ -f /etc/timezone ]] ; then
     sed -i -e "s#<TIME_ZONE>#$DETECTED_TIMEZONE#g" .env
 fi
 
+DETECTED_CPU_COUNT=$(egrep "processor\s:\s[0-9]+" /proc/cpuinfo | wc -l)
+sed -i -e "s#<CPU_COUNT>#$DETECTED_CPU_COUNT#g" .env
+echo "CPU Count Detected."
+
 echo "Configuring Paths..."
-find . -type f | xargs sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g"
-find . -type f | xargs sed -i -e "s#%APP_PATH%#$APP_PATH#g"
+find .docker Dockerfile docker-compose.yml -type f | xargs sed -i -e "s#%ROOT_PATH%#$ROOT_PATH#g"
+find .docker Dockerfile docker-compose.yml -type f | xargs sed -i -e "s#%APP_PATH%#$APP_PATH#g"
 
 echo "Adjust .env file and... $ sudo docker-compose up' to build and start containers"
 exit 0

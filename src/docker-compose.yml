@@ -9,6 +9,7 @@ services:
         - NODE_VERSION
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - .:%ROOT_PATH%
       - ${HOME}/.ssh:/root/.ssh
@@ -23,6 +24,7 @@ services:
       - VHOST_NAME
       - FASTCGI_TIMEOUT
       - PHP_MEMORY_LIMIT
+      - CPU_COUNT
       - XDEBUG_REMOTE_HOST
       - XDEBUG_REMOTE_PORT
       - TIME_ZONE
