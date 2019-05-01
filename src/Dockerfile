@@ -16,11 +16,10 @@ COPY .docker/tools/* /usr/local/bin/
 
 #_APPLICATION_
 
-# Curl
-ADD https://curl.haxx.se/ca/cacert.pem /var/www
-
 # Dockerize
-ADD https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+ADD https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+    
 RUN tar -C /usr/local/bin -xzf /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
