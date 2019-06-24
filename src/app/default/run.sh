@@ -33,8 +33,8 @@ if [[ ! -f /var/docker/.built ]] ; then
 
     # Privileges
     echo "Setting Privileges"
-    chown www-data:www-data -R /var/www
-    ls -a /var/www | egrep '^\.[a-z]' | xargs chown -R www-data:www-data
+    ls -d /var/www/* | grep -v htdocs | xargs chown www-data:www-data -R
+    chown www-data:www-data -R /var/www/.[^.]*
 fi
 
 #_ENVIRONMENT_
