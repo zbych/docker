@@ -51,6 +51,6 @@ RUN mkdir -p /run/php \
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
-EXPOSE 80 80
+EXPOSE 80 443
 WORKDIR %ROOT_PATH%
 CMD ["/var/docker/run.sh"]
