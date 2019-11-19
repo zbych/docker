@@ -1,5 +1,6 @@
 
 # CONFIGURE ENVIRONMENT
+export PHP_LIB_LOCATION=$(php-config --extension-dir)
 
 dockerize \
     -template=/var/docker/php/cli/php.ini:/etc/php/7.2/cli/php.ini \

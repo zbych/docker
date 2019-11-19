@@ -39,15 +39,15 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm
 RUN echo "opcache.memory_consumption=256" >> /etc/php/7.1/mods-available/opcache.ini
 
 # XDEBUG
-ADD https://xdebug.org/files/xdebug-2.6.0.tgz /tmp/xdebug-2.6.0.tgz
-RUN tar -C /var/local/ -xzf /tmp/xdebug-2.6.0.tgz
-WORKDIR /var/local/xdebug-2.6.0
+ADD https://xdebug.org/files/xdebug-2.8.0.tgz /tmp/xdebug-2.8.0.tgz
+RUN tar -C /var/local/ -xzf /tmp/xdebug-2.8.0.tgz
+WORKDIR /var/local/xdebug-2.8.0
 RUN phpize \
     && chmod u+x configure \
     && ./configure \
     && make \
-    && cp /var/local/xdebug-2.6.0/modules/xdebug.so /usr/lib/php/20170718 \
+    && cp /var/local/xdebug-2.8.0/modules/xdebug.so $(php-config --extension-dir) \
     && touch /etc/php/7.1/mods-available/xdebug.ini \
     && ln -s /etc/php/7.1/mods-available/xdebug.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini \
     && ln -s /etc/php/7.1/mods-available/xdebug.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
-    && rm /tmp/xdebug-2.6.0.tgz
+    && rm /tmp/xdebug-2.8.0.tgz

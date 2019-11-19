@@ -38,15 +38,15 @@ RUN echo "opcache.memory_consumption=256" >> /etc/php/7.0/mods-available/opcache
 ADD https://curl.haxx.se/ca/cacert.pem /var/www
 
 # XDEBUG
-ADD https://xdebug.org/files/xdebug-2.5.5.tgz /tmp/xdebug-2.5.5.tgz
-RUN tar -C /var/local/ -xzf /tmp/xdebug-2.5.5.tgz
-WORKDIR /var/local/xdebug-2.5.5
+ADD https://xdebug.org/files/xdebug-2.8.0.tgz /tmp/xdebug-2.8.0.tgz
+RUN tar -C /var/local/ -xzf /tmp/xdebug-2.8.0.tgz
+WORKDIR /var/local/xdebug-2.8.0
 RUN phpize \
     && chmod u+x configure \
     && ./configure \
     && make \
-    && cp /var/local/xdebug-2.5.5/modules/xdebug.so /usr/lib/php/20151012 \
+    && cp /var/local/xdebug-2.8.0/modules/xdebug.so $(php-config --extension-dir) \
     && touch /etc/php/7.0/mods-available/xdebug.ini \
     && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini \
     && ln -s /etc/php/7.0/mods-available/xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
-    && rm /tmp/xdebug-2.5.5.tgz
+    && rm /tmp/xdebug-2.8.0.tgz
