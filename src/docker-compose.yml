@@ -7,6 +7,8 @@ services:
       args:
         - SHARED_UID
         - NODE_VERSION
+        # Blackfire (remove if not necessary)
+        - BLACKFIRE_ENABLED
     ports:
       - "80:80"
       - "443:443"
@@ -61,6 +63,17 @@ services:
     ports:
       - '1080:1080'
       - '1025:1025'
+
+  blackfire:
+    image: blackfire/blackfire
+    env_file: .env
+    environment:
+      - BLACKFIRE_CLIENT_ID
+      - BLACKFIRE_CLIENT_TOKEN
+      - BLACKFIRE_SERVER_ID
+      - BLACKFIRE_SERVER_TOKEN
+    ports:
+      - "8707:8707"
 
 volumes:
   db:

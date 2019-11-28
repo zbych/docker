@@ -1,6 +1,9 @@
 FROM debian:jessie
+
 ARG SHARED_UID
 ARG NODE_VERSION
+ARG BLACKFIRE_ENABLED
+ENV PHP_VERSION "7.2"
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
 
