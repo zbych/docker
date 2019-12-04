@@ -16,7 +16,7 @@ if [[ $1 = "help" ]]; then
   echo "Available Environments:"
   ls $DIR/docker/src/php | grep -v "default"
   echo "Available Applications:"
-  ls $DIR/docker/src/app | grep -v "default"
+  ls $DIR/docker/src/app | grep -v "base"
   exit 0
 fi
 
@@ -39,7 +39,7 @@ if [[ ! -d $DIR/docker/src/php/$1 ]]; then
 fi
 
 if [[ ! -d $DIR/docker/src/app/$2 ]]; then
-  echo "Unknown Application $1"
+  echo "Unknown Application $2"
   echo "Available Applications:"
   ls $DIR/docker/src/app | grep -v "default"
   exit 0
@@ -65,7 +65,7 @@ cat $DIR/docker/src/.env \
     $DIR/docker/src/php/default/.env \
     $DIR/docker/src/php/$1/.env \
     $DIR/docker/src/app/$2/.env \
-    $DIR/docker/src/app/default/.env \
+    $DIR/docker/src/app/base/.env \
     > .env
 
 # NGINX
@@ -82,19 +82,21 @@ cat $DIR/docker/src/php/default/supervisord.conf \
     > .docker/supervisor/supervisord.conf
 
 # ENTRYPOINT
-cat $DIR/docker/src/app/default/run.sh \
+cat $DIR/docker/src/app/base/run.sh \
     | awk "/#_ENVIRONMENT_/{system(\"cat $DIR/docker/src/php/$1/run.sh\");next}1" \
     | awk "/#_APPLICATION_/{system(\"cat $DIR/docker/src/app/$2/run.sh\");next}1" \
     > .docker/run.sh
 
 # TOOLS
-cp $DIR/docker/src/app/default/tools/* .docker/tools
+cp $DIR/docker/src/app/base/tools/* .docker/tools
 if [[ -d $DIR/docker/src/app/$2/tools ]]; then
     cp $DIR/docker/src/app/$2/tools/* .docker/tools
 fi
 
 # ETC
-cp $DIR/docker/src/app/$2/etc/* .docker/etc
+if [ -d $DIR/docker/src/app/$2/etc ] ; then
+  cp $DIR/docker/src/app/$2/etc/* .docker/etc -r
+fi
 
 # DOCKERFILE
 cat $DIR/docker/src/Dockerfile \
