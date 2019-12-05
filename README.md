@@ -12,7 +12,7 @@ Tailored for Debian/Ubuntu distributions.
  - Magento 1.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
  - Magento 2.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
  - WordPress with PHP5, PHP7.0, PHP7.1, PHP.7.2
- - Sylius
+ - Symfony
  
 ### Containers
  - Web
@@ -33,8 +33,8 @@ Tailored for Debian/Ubuntu distributions.
 `curl -sSL https://raw.githubusercontent.com/zbych/docker/master/install.sh | bash`
 
 ### How to use?
- - Clone your working copy of Magento or Magento2
- - `docker-project-init <platform> <application> <name>` 
+ - Clone your working copy of Application
+ - `docker-project-init <platform> <application> <name> [<path_to_application>]` 
  - Adjust .env file if needed and docker-compose.yml
  - Run `sudo docker-compose up`
  - Enjoy
@@ -49,4 +49,4 @@ Tailored for Debian/Ubuntu distributions.
  - magento2
  - magento
  - wp
- - sylius
+ - Symfony

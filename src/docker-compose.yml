@@ -7,8 +7,7 @@ services:
       args:
         - SHARED_UID
         - NODE_VERSION
-        # Blackfire (remove if not necessary)
-        - BLACKFIRE_ENABLED
+        - BLACKFIRE_ENABLED # remove if not necessary
     ports:
       - "80:80"
       - "443:443"
@@ -21,24 +20,6 @@ services:
       - mysql
       - mailcatcher
     env_file: .env
-    environment:
-      - PROJECT
-      - VHOST_NAME
-      - FASTCGI_TIMEOUT
-      - PHP_MEMORY_LIMIT
-      - CPU_COUNT
-      - XDEBUG_REMOTE_HOST
-      - XDEBUG_REMOTE_PORT
-      - TIME_ZONE
-      - MAGENTO_KEY
-      - APP_USER_NAME
-      - APP_USER_PASSWD
-      - APP_USER_EMAIL
-      - APP_USER_FIRST_NAME
-      - APP_USER_LAST_NAME
-      - APP_CURRENCY
-      - APP_LOCALE
-      - APP_TIMEZONE
 
   redis:
     image: redis

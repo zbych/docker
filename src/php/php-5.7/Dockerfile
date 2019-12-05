@@ -30,3 +30,6 @@ COPY .docker/php/fpm/* /var/docker/php/fpm/
 
 # Set PHP-FPM running as non-daemon
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
+
+# Redirect logs:
+RUN ln -sf /dev/stderr /var/log/php5-fpm.log

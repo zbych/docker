@@ -13,5 +13,3 @@ echo "Setting up cron..."
 if [[ ! -f /var/docker/.built ]] ; then
     echo '* * * * * www-data cd %APP_PATH% && /usr/bin/php cron.php >> %APP_PATH%/var/log/cron.log 2>&1' >> /etc/crontab
 fi
-
-/usr/sbin/cron
