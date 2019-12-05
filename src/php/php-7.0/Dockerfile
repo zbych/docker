@@ -17,7 +17,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
       php7.0-opcache  php7.0-readline php7.0-memcached php7.0-zip php7.0-xsl php7.0-mbstring php7.0-bcmath \
       apt-transport-https lsb-release wget ca-certificates bzip2 unzip openssl patch \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*\
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
     && update-ca-certificates
 
 # Create mandatory paths:
@@ -31,14 +31,8 @@ COPY .docker/php/xdebug.ini /var/docker/php/
 COPY .docker/php/cli/* /var/docker/php/cli/
 COPY .docker/php/fpm/* /var/docker/php/fpm/
 
-# Set PHP-FPM running as non-daemon
-RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
-
 # Increase Opcache Limit:
 RUN echo "opcache.memory_consumption=256" >> /etc/php/7.0/mods-available/opcache.ini
-
-# Curl
-ADD https://curl.haxx.se/ca/cacert.pem /var/www
 
 # XDEBUG
 ADD https://xdebug.org/files/xdebug-2.8.0.tgz /tmp/xdebug-2.8.0.tgz
