@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 switch_on_flag () {
     echo "Switching on: $1"

@@ -21,4 +21,3 @@ if [[ ! -f /var/docker/.built ]] ; then
     echo '* * * * * www-data cd %APP_PATH% && /usr/bin/php bin/magento setup:cron:run >> %APP_PATH%/var/log/setup.cron.log 2>&1' >> /etc/crontab
 fi
 
-/usr/sbin/cron

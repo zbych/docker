@@ -56,7 +56,7 @@ RUN mkdir -p /run/php \
     && usermod -u $SHARED_UID www-data \
     && chsh -s /bin/bash www-data \
     && mkdir -p %ROOT_PATH% \
-    && mv /usr/local/bin/*.sql /var/docker/sql
+    && find /usr/local/bin/ -type f -iname "*.sql" -exec mv {} /var/docker/sql \;
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log

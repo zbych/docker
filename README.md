@@ -1,9 +1,9 @@
-# Docker based Magento Fast Environment #
+# Docker based Fast Full Environment #
 Tailored for Debian/Ubuntu distributions.
 
 ### Requirements:
 * Linux based systems (Debian)
-* Docker: 18.x
+* Docker: 18.x or higher
 * docker-compose: 1.23
 * Binaries: awk, sed, ifconfig, git
 * Released ports: 3306 (mysql), 80 (apache,nginx), 6379 (redis), 1080, 1025
@@ -12,37 +12,41 @@ Tailored for Debian/Ubuntu distributions.
  - Magento 1.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
  - Magento 2.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
  - WordPress with PHP5, PHP7.0, PHP7.1, PHP.7.2
+ - Symfony
  
-### Utilizes
- - docker-compose v3
+### Containers
+ - Web
  - MySQL (Percona)
  - Redis
  - Mailcatcher with Mailhog
+ - BlackFire
 
-### Web Images supports:
+### Web Image supports:
  - Nginx
  - PHP-FPM
  - Node (npm)
  - Composer
- - Xdebug (even in PHP7)
+ - Xdebug
+ - BlackFire
 
 ### INSTALL
 `curl -sSL https://raw.githubusercontent.com/zbych/docker/master/install.sh | bash`
 
 ### How to use?
- - Clone your working copy of Magento or Magento2
- - `docker-project-init <platform> <application> <name>` 
- - Adjust .env file if needed
+ - Clone your working copy of Application
+ - `docker-project-init <platform> <application> <name> [<path_to_application>]` 
+ - Adjust .env file if needed and docker-compose.yml
  - Run `sudo docker-compose up`
  - Enjoy
  
 ### Platforms:
+ - php-5.7
  - php-7.0
  - php-7.1
  - php-7.2
- - php-5.7
  
 ### Applications
- - magento
  - magento2
+ - magento
  - wp
+ - Symfony
