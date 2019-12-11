@@ -18,7 +18,7 @@ services:
     links:
       - redis
       - mysql
-      - mailcatcher
+      - mail
     env_file: .env
 
   redis:
@@ -39,10 +39,10 @@ services:
       - 'MYSQL_LOG_CONSOLE=true'
       - "MYSQL_ROOT_HOST=%"
 
-  mailcatcher:
-    image: schickling/mailcatcher
+  mail:
+    image: mailhog/mailhog
     ports:
-      - '1080:1080'
+      - '8025:8025'
       - '1025:1025'
 
   blackfire:

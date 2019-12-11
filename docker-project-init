@@ -48,6 +48,7 @@ fi
 if [[ -n "$4" ]] ; then
     APP_PATH="$APP_PATH/$4"
 fi
+MD5_CRYPT_KEY=$(date | md5sum | awk '{print $1}')
 
 mkdir .docker
 mkdir .docker/etc
@@ -70,6 +71,7 @@ cat $DIR/docker/src/.env \
 
 sed -i -e "s/<SHARED_UID>/$UID/" .env
 sed -i -e "s/<PROJECT>/$3/g" .env
+sed -i -e "s/<MD5_CRYPT_KEY>/$MD5_CRYPT_KEY/g" .env
 
 # NGINX
 cp $DIR/docker/src/nginx/* .docker/nginx/ -r

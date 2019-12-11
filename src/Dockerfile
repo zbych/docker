@@ -45,8 +45,8 @@ RUN unxz /tmp/node-$NODE_VERSION-linux-x64.tar.xz \
     && rm /tmp/node-$NODE_VERSION-linux-x64.tar \
     && export PATH=$PATH:/var/www/bin/node-$NODE_VERSION-linux-x64/bin
 
-# Sendmail (MailHog -> MailCatcher)
-RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
+# Sendmail (MailHog)
+RUN curl -Lsf 'https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
 ENV PATH /usr/local/go/bin:$PATH
 RUN go get github.com/mailhog/mhsendmail \
     && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
