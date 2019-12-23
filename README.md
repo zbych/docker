@@ -6,7 +6,7 @@ Tailored for Debian/Ubuntu distributions.
 * Docker: 18.x or higher
 * docker-compose: 1.23
 * Binaries: awk, sed, ifconfig, git
-* Released ports: 3306 (mysql), 80 (apache,nginx), 6379 (redis), 1080, 1025
+* Released ports: 3306 (mysql), 80 (apache,nginx), 6379 (redis), 8025 (mailhog)
 
 ### Available Variations:
  - Magento 1.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
@@ -18,7 +18,7 @@ Tailored for Debian/Ubuntu distributions.
  - Web
  - MySQL (Percona)
  - Redis
- - Mailcatcher with Mailhog
+ - MailHog
  - BlackFire
 
 ### Web Image supports:
@@ -49,4 +49,4 @@ Tailored for Debian/Ubuntu distributions.
  - magento2
  - magento
  - wp
- - Symfony
+ - symfony

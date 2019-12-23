@@ -72,6 +72,7 @@ cat $DIR/docker/src/.env \
 sed -i -e "s/<SHARED_UID>/$UID/" .env
 sed -i -e "s/<PROJECT>/$3/g" .env
 sed -i -e "s/<MD5_CRYPT_KEY>/$MD5_CRYPT_KEY/g" .env
+cp .env .env.sample
 
 # NGINX
 cp $DIR/docker/src/nginx/* .docker/nginx/ -r

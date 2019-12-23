@@ -1,9 +1,9 @@
-ENV PHP_VERSION "7.2"
+ENV PHP_VERSION "7.3"
 
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install php7.2 php7.2-common php7.2-fpm php7.2-dev php7.2-curl php7.2-gd \
-        php7.2-intl php7.2-json php7.2-soap php7.2-phpdbg php7.2-mysql php7.2-cli php7.2-opcache php7.2-zip php7.2-xsl \
-        php7.2-mbstring php7.2-bcmath php-pear \
+    && apt-get -y --no-install-recommends install php7.3 php7.3-common php7.3-fpm php7.3-dev php7.3-curl php7.3-gd \
+        php7.3-intl php7.3-json php7.3-soap php7.3-phpdbg php7.3-mysql php7.3-cli php7.3-opcache php7.3-zip php7.3-xsl \
+        php7.3-mbstring php7.3-bcmath php-pear \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
@@ -19,10 +19,10 @@ COPY .docker/php/cli/* /var/docker/php/cli/
 COPY .docker/php/fpm/* /var/docker/php/fpm/
 
 # Increase Opcache Limit:
-RUN echo "opcache.memory_consumption=256" >> /etc/php/7.2/mods-available/opcache.ini
+RUN echo "opcache.memory_consumption=256" >> /etc/php/7.3/mods-available/opcache.ini
 
 # XDEBUG
 RUN pecl install xdebug
 
 # Redirect logs:
-RUN ln -sf /dev/stderr /var/log/php7.2-fpm.log
+RUN ln -sf /dev/stderr /var/log/php7.3-fpm.log

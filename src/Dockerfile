@@ -1,3 +1,21 @@
+FROM debian:stretch
+
+ARG SHARED_UID
+ARG NODE_VERSION
+ARG BLACKFIRE_ENABLED
+ENV DEBIAN_FRONTEND=noninteractive
+
+MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y curl wget apt-transport-https lsb-release ca-certificates xz-utils cron nginx nginx-common \
+        nginx-extras inetutils-ping supervisor dnsutils make vim git ssh g++ mysql-client redis-tools openssl bzip2 \
+        unzip patch gnupg \
+    && update-ca-certificates \
+    && wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - \
+    && sh -c 'echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list'
+
 #_ENVIRONMENT_
 
 ENV DOCKERIZE_VERSION "v0.6.1"
@@ -36,7 +54,6 @@ RUN tar -C /usr/local/bin -xzf /tmp/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar
 
 # Composer
 ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
-RUN chmod 755 /usr/local/bin/composer
 
 # NODE, GRUNT
 ADD https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.xz /tmp/node-$NODE_VERSION-linux-x64.tar.xz
@@ -52,11 +69,12 @@ RUN go get github.com/mailhog/mhsendmail \
     && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
 
 RUN mkdir -p /run/php \
-    && chmod 777 /var/docker/run.sh \
+    && chmod 755 /var/docker/run.sh \
     && usermod -u $SHARED_UID www-data \
     && chsh -s /bin/bash www-data \
     && mkdir -p %ROOT_PATH% \
-    && find /usr/local/bin/ -type f -iname "*.sql" -exec mv {} /var/docker/sql \;
+    && find /usr/local/bin/ -type f -iname "*.sql" -exec mv {} /var/docker/sql \; \
+    && chmod 755 -R /usr/local/bin
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
