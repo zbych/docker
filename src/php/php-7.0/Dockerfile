@@ -22,7 +22,16 @@ COPY .docker/php/fpm/* /var/docker/php/fpm/
 RUN echo "opcache.memory_consumption=256" >> /etc/php/7.0/mods-available/opcache.ini
 
 # XDEBUG
-RUN pecl install xdebug
+WORKDIR /root/
+ADD https://xdebug.org/files/xdebug-2.5.5.tgz /tmp/xdebug-2.5.5.tgz
+RUN tar -C /var/local/ -xzf /tmp/xdebug-2.5.5.tgz
+WORKDIR /var/local/xdebug-2.5.5
+RUN phpize \
+    && chmod u+x configure \
+    && ./configure \
+    && make \
+    && cp /var/local/xdebug-2.5.5/modules/xdebug.so /usr/lib/php/20151012 \
+    && rm /tmp/xdebug-2.5.5.tgz
 
 # Redirect logs:
 RUN ln -sf /dev/stderr /var/log/php7.0-fpm.log
