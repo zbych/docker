@@ -8,12 +8,12 @@ fi
 
 switch_on_flag () {
     echo "Switching on: $1"
-    magerun config:set $1 1 > /dev/null
+    ./bin/magento config:set $1 1 > /dev/null
 }
 
 switch_off_flag () {
     echo "Switching off: $1"
-    magerun config:set $1 0 > /dev/null
+    ./bin/magento config:set $1 0 > /dev/null
 }
 
 echo "Deploying as: $lang"

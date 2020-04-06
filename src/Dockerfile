@@ -6,6 +6,7 @@ ARG BLACKFIRE_ENABLED
 ENV DEBIAN_FRONTEND=noninteractive
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
+# Generated from: https://github.com/zbych/docker
 
 RUN apt-get update \
     && apt-get upgrade -y \
