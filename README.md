@@ -12,7 +12,7 @@ Tailored for Debian/Ubuntu distributions.
  - Magento 1.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
  - Magento 2.x with PHP5, PHP7.0, PHP7.1, PHP.7.2
  - WordPress with PHP5, PHP7.0, PHP7.1, PHP.7.2
- - Symfony
+ - Symfony with PHP5, PHP7.0, PHP7.1, PHP.7.2
  
 ### Containers
  - Web
@@ -28,6 +28,7 @@ Tailored for Debian/Ubuntu distributions.
  - Composer
  - Xdebug
  - BlackFire
+ - n98-magerun
 
 ### INSTALL
 `curl -sSL https://raw.githubusercontent.com/zbych/docker/master/install.sh | bash`
@@ -46,7 +47,7 @@ Tailored for Debian/Ubuntu distributions.
  - php-7.2
  
 ### Applications
- - magento2
  - magento
- - wp
+ - magento2
  - symfony
+ - wp
