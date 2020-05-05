@@ -78,9 +78,9 @@ cp .env .env.sample
 cp $DIR/docker/src/nginx/* .docker/nginx/ -r
 
 # PHP
+cp $DIR/docker/src/php/default/xdebug.ini .docker/php/
 cp $DIR/docker/src/php/$1/cli .docker/php/cli -r
 cp $DIR/docker/src/php/$1/fpm .docker/php/fpm -r
-cp $DIR/docker/src/php/$1/xdebug.ini .docker/php/
 
 # SUPERVISORD
 cat $DIR/docker/src/supervisord.conf \
