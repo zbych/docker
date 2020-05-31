@@ -7,6 +7,7 @@ services:
       args:
         - SHARED_UID
         - NODE_VERSION
+        - MAGERUN_VERSION
         - BLACKFIRE_ENABLED # remove if not necessary
     ports:
       - "80:80"

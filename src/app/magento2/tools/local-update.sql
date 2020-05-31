@@ -7,6 +7,10 @@ UPDATE core_config_data
   WHERE path = 'web/cookie/cookie_domain' AND scope = 'default' AND scope_id = '0';
 
 UPDATE core_config_data
+  SET value = '1'
+  WHERE path IN ('web/secure/use_in_frontend', 'web/secure/use_in_adminhtml')
+
+UPDATE core_config_data
   SET value = '31536000'
   WHERE path = 'admin/security/session_lifetime';
 

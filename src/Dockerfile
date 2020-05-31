@@ -60,8 +60,7 @@ ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
 ADD https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.xz /tmp/node-$NODE_VERSION-linux-x64.tar.xz
 RUN unxz /tmp/node-$NODE_VERSION-linux-x64.tar.xz \
     && tar -C /var/www/bin -xf /tmp/node-$NODE_VERSION-linux-x64.tar \
-    && rm /tmp/node-$NODE_VERSION-linux-x64.tar \
-    && export PATH=$PATH:/var/www/bin/node-$NODE_VERSION-linux-x64/bin
+    && rm /tmp/node-$NODE_VERSION-linux-x64.tar
 
 # Sendmail (MailHog)
 RUN curl -Lsf 'https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
