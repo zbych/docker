@@ -14,13 +14,14 @@ services:
       - "443:443"
     volumes:
       - .:%ROOT_PATH%
-      - ${HOME}/.ssh:/root/.ssh
-      - ${HOME}/.composer:/root/.composer
+      - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
     links:
       - redis
       - mysql
       - mail
     env_file: .env
+    environment:
+      - SSH_AUTH_SOCK=$SSH_AUTH_SOCK
 
   redis:
     image: redis
