@@ -2,7 +2,6 @@ FROM debian:stretch
 
 ARG SHARED_UID
 ARG NODE_VERSION
-ARG BLACKFIRE_ENABLED
 ENV DEBIAN_FRONTEND=noninteractive
 
 MAINTAINER Zbigniew Łabacz <zbigniew.labacz@gmail.com>
@@ -22,14 +21,7 @@ RUN apt-get update \
 ENV DOCKERIZE_VERSION "v0.6.1"
 
 # Blackfire
-RUN test -n "$BLACKFIRE_ENABLED" \
-    && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
-    && mkdir -p /tmp/blackfire \
-    && tar -xzf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
-    && mv /tmp/blackfire/blackfire-*.so $(php-config --extension-dir)/blackfire.so \
-    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > /etc/php/$PHP_VERSION/mods-available/blackfire.ini \
-    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
+# Temporarily removed.
 
 # Create mandatory paths:
 RUN mkdir -p /var/docker/ \
