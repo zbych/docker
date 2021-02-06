@@ -1,2 +1,4 @@
 #!/bin/sh
-export XDEBUG_CONFIG="idekey=PHPSTORM" && export PHP_IDE_CONFIG="serverName=application" && php "$@"
+
+# Export XDEBUG_TRIGGER and run command. This way Xdebug will be triggered on demand.
+export XDEBUG_TRIGGER=1 && php "$@"

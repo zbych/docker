@@ -37,7 +37,7 @@ switch_on_flag "dev/js/merge_files"
 ./bin/magento setup:static-content:deploy en_US --theme Magento/backend
 ./bin/magento setup:static-content:deploy $lang
 ./bin/magento cache:enable
-read -p "Start testing and press any key to continue when finished Production Mode. " -n1 -s
+read -p "Start testing and press any key to continue when finished Production Mode."
 echo "Closing Production mode, reverting Developer mode..."
 ./bin/magento deploy:mode:set developer
 switch_off_flag "dev/static/sign"
