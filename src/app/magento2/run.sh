@@ -18,6 +18,7 @@ fi
 echo "Configuring Composer"
 if [[ -f %APP_PATH%/auth.json.sample ]]; then
   cp %APP_PATH%/auth.json.sample %APP_PATH%/auth.json
+  chown www-data:www-data %APP_PATH%/auth.json
   sed -i -e "s/<public-key>/$MAGENTO_AUTH_USERNAME/" %APP_PATH%/auth.json
   sed -i -e "s/<private-key>/$MAGENTO_AUTH_PASSWORD/" %APP_PATH%/auth.json
 fi
