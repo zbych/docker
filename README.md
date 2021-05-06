@@ -26,7 +26,7 @@ Tailored for Debian based distributions.
  - PHP-FPM
  - Node, npm
  - Composer
- - Xdebug (even for php7.0)
+ - Xdebug (even for php7.0, Xdebug 3.x)
  - BlackFire
  - n98-magerun
 
@@ -48,6 +48,7 @@ Tailored for Debian based distributions.
  - php-7.1
  - php-7.2
  - php-7.3
+ - php-7.4
  
 ### Applications
  - magento

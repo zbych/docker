@@ -8,14 +8,6 @@ dockerize \
 
 if [[ ! -f /var/docker/.built ]] ; then
 
-    # User Keys
-    echo "Setting up SSH and Composer keys"
-    mkdir -p /var/www/.composer
-    mkdir -p /var/www/.ssh
-    cp /root/.composer/*.json /var/www/.composer
-    cp /root/.ssh/* /var/www/.ssh/
-    chmod 600 /var/www/.ssh/id_rsa
-
     # SQL Tools
     if [[ -d /var/docker/sql ]] ; then
         mkdir -p %APP_PATH%/var/sql
