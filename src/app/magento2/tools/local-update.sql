@@ -1,5 +1,5 @@
 UPDATE core_config_data
-  SET value = 'http://{{ .Env.PROJECT }}.local/'
+  SET value = 'https://{{ .Env.PROJECT }}.local/'
   WHERE path LIKE 'web/%/base_url' AND scope = 'default' AND scope_id = '0';
 
 UPDATE core_config_data
@@ -8,7 +8,7 @@ UPDATE core_config_data
 
 UPDATE core_config_data
   SET value = '1'
-  WHERE path IN ('web/secure/use_in_frontend', 'web/secure/use_in_adminhtml')
+  WHERE path IN ('web/secure/use_in_frontend', 'web/secure/use_in_adminhtml');
 
 UPDATE core_config_data
   SET value = '31536000'
@@ -20,9 +20,7 @@ UPDATE core_config_data
     'dev/js/merge_files',
     'dev/js/minify_files',
     'dev/css/merge_css_files',
-    'google/analytics/active',
-    'web/secure/use_in_frontend',
-    'web/secure/use_in_adminhtml'
+    'google/analytics/active'
   );
 
 DELETE FROM core_config_data
